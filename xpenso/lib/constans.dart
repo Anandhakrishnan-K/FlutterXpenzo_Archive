@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // ************************* Initialising Color Variables *********************
 const Color appBarColor = Color(0xff76ABDF);
-const Color cardColor = Color(0xffB9D9EB);
+const Color cardColor = Color.fromARGB(255, 240, 240, 240);
 const Color cardFontColor = Colors.black;
 Color temp = Colors.white;
 
@@ -10,6 +11,11 @@ Color temp = Colors.white;
 
 double demoAmount = 132000;
 double demoAmount1 = 98000;
+DateFormat dateFormat = DateFormat('dd (E)');
+DateFormat monthFormat = DateFormat('MMM');
+DateFormat yearFormat = DateFormat('yyyy');
+DateFormat cardFormat = DateFormat('dd - MMM - yyyy');
+DateTime dateSelected = DateTime.now();
 
 // ************************* Custom Text Widget ******************************//
 
@@ -42,7 +48,7 @@ class MyText extends StatelessWidget {
 
 // ************************* Custom Button Widget ****************************//
 
-class MyButton extends StatelessWidget {
+class MyButton extends StatefulWidget {
   final String content;
   final Function()? onPressed;
   final double textSize;
@@ -68,21 +74,26 @@ class MyButton extends StatelessWidget {
       required this.onPressed});
 
   @override
+  State<MyButton> createState() => _MyButtonState();
+}
+
+class _MyButtonState extends State<MyButton> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
-      width: width,
+      height: widget.height,
+      width: widget.width,
       decoration: BoxDecoration(
-          color: fillColor,
-          border: Border.all(color: borderColor),
-          borderRadius: BorderRadius.circular(rad)),
+          color: widget.fillColor,
+          border: Border.all(color: widget.borderColor),
+          borderRadius: BorderRadius.circular(widget.rad)),
       child: TextButton(
-        onPressed: onPressed,
+        onPressed: widget.onPressed,
         child: MyText(
-          content: content,
-          color: textcolor,
-          size: textSize,
-          isHeader: isBold,
+          content: widget.content,
+          color: widget.textcolor,
+          size: widget.textSize,
+          isHeader: widget.isBold,
         ),
       ),
     );

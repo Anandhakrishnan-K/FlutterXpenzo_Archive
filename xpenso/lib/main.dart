@@ -1,12 +1,15 @@
+library date_time_line;
+
 import 'package:flutter/material.dart';
-import 'package:xpenso/Screens/add_expense_page.dart';
+import 'package:xpenso/Screens/tabs.dart';
 import 'package:xpenso/constans.dart';
 import 'Screens/app_bar.dart';
-import 'Screens/expense_card.dart';
+import 'time_slider.dart';
 
 // ***********************  Program Starts Here  ***************************
 void main(List<String> args) {
-  runApp(const MainHome());
+  runApp(
+      const MaterialApp(debugShowCheckedModeBanner: false, home: MainHome()));
 }
 
 // *********************** Main Home Page Starts Here *********************
@@ -17,7 +20,11 @@ class MainHome extends StatefulWidget {
   State<MainHome> createState() => _MainHomeState();
 }
 
-class _MainHomeState extends State<MainHome> {
+class _MainHomeState extends State<MainHome>
+    with SingleTickerProviderStateMixin {
+  PageController pageController = PageController(initialPage: 0);
+  int currentTab = 0;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,79 +36,147 @@ class _MainHomeState extends State<MainHome> {
 
 // ************************* App Bar Starts Here ***************************
 
-            appBar: const PreferredSize(
-                preferredSize: Size.fromHeight(70), child: MyappBar()),
+            // ignore: prefer_const_constructors
+            appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(60),
+                // ignore: prefer_const_constructors
+                child: MyappBar()),
 
 // ************************** Main Content Starts Here *************************
 
             body: TabBarView(physics: const BouncingScrollPhysics(), children: [
 // ************************* Charts Page Starts Here ***************************
 
-              Container(
-                child: Center(
-                  child: MyButton(content: 'Charts', onPressed: () {}),
-                ),
-              ),
+              const Center(child: MyText(content: 'This is Charts Section')),
 
 // ************************* Home Page Start Here ******************************
 
-              Container(
-                color: temp,
-                child: Column(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: ExpenseCard(
-                        onPressedCredit: () {
-                          // ignore: avoid_print
-                          print('Cliking Credit');
-                          setState(() {});
-                        },
-                        onPressedDebit: () {
-                          // ignore: avoid_print
-                          print('Cliking Debit');
-                          setState(() {});
-                        },
-                      ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: 50,
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        MyButton(
+                            content:
+                                (dateFormat.format(dateSelected)).toString(),
+                            height: currentTab == 0 ? 45 : 40,
+                            width: 100,
+                            isBold: currentTab == 0 ? true : false,
+                            borderColor:
+                                currentTab == 0 ? appBarColor : Colors.black,
+                            fillColor:
+                                currentTab == 0 ? cardColor : Colors.white,
+                            onPressed: () {
+                              setState(() {
+                                currentTab = 0;
+                              });
+                              pageController.animateToPage(0,
+                                  duration: const Duration(milliseconds: 200),
+                                  curve: Curves.easeIn);
+                            }),
+                        const SizedBox(
+                          width: 25,
+                        ),
+                        MyButton(
+                            content:
+                                (monthFormat.format(dateSelected)).toString(),
+                            height: currentTab == 1 ? 45 : 40,
+                            width: 100,
+                            isBold: currentTab == 1 ? true : false,
+                            borderColor:
+                                currentTab == 1 ? appBarColor : Colors.black,
+                            fillColor:
+                                currentTab == 1 ? cardColor : Colors.white,
+                            onPressed: () {
+                              setState(() {
+                                currentTab = 1;
+                              });
+                              pageController.animateToPage(1,
+                                  duration: const Duration(milliseconds: 200),
+                                  curve: Curves.easeIn);
+                            }),
+                        const SizedBox(
+                          width: 25,
+                        ),
+                        MyButton(
+                            content:
+                                (yearFormat.format(dateSelected)).toString(),
+                            height: currentTab == 2 ? 45 : 40,
+                            width: 100,
+                            isBold: currentTab == 2 ? true : false,
+                            borderColor:
+                                currentTab == 2 ? appBarColor : Colors.black,
+                            fillColor:
+                                currentTab == 2 ? cardColor : Colors.white,
+                            onPressed: () {
+                              setState(() {
+                                currentTab = 2;
+                              });
+                              pageController.animateToPage(2,
+                                  duration: const Duration(milliseconds: 200),
+                                  curve: Curves.easeIn);
+                            }),
+                      ],
                     ),
-                    Container(
-                      width: 400,
-                      height: 500,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 30),
-                      child: ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: 30,
-                          itemBuilder: (buildContext, index) {
-                            return ListTile(
-                              leading: const ImageIcon(
-                                AssetImage('assets/icons/salary.png'),
-                                size: 40,
-                                color: cardFontColor,
-                              ),
-                              title: Text(
-                                  'Amount ${index + 1} to be displayed here'),
-                              subtitle: Text(
-                                  'Entered Notes ${index + 1} to be displayed here'),
-                              trailing: const ImageIcon(
-                                AssetImage('assets/icons/delete.png'),
-                                size: 30,
-                                color: Colors.red,
-                              ),
-                            );
-                          }),
-                    )
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                    child: MyButton(
+                      fillColor: Colors.transparent,
+                      content:
+                          '<   ${cardFormat.format(dateSelected).toString()}   >',
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Center(child: Text('Pick a Date')),
+                                content: DateTimeLine(
+                                    width: 100,
+                                    color: appBarColor,
+                                    onSelected: (value) {
+                                      setState(() {
+                                        dateSelected = value;
+                                      });
+                                      // ignore: avoid_print
+                                      print(dateSelected);
+                                      Navigator.of(context).pop();
+                                    }),
+                              );
+                            });
+                      },
+                      borderColor: Colors.transparent,
+                      textSize: 15,
+                      width: 200,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 600,
+                    child: PageView(
+                      controller: pageController,
+                      physics: const NeverScrollableScrollPhysics(),
+                      // ignore: prefer_const_literals_to_create_immutables
+                      children: [
+                        // ignore: prefer_const_constructors
+                        MyDayTab(),
+                        // ignore: prefer_const_constructors
+                        MyMonthTab(),
+                        // ignore: prefer_const_constructors
+                        MyYearTab(),
+                      ],
+                    ),
+                  ),
+                ],
               ),
 
 // ************************* Reports page Goes Here ****************************
 
-              Container(
-                child: Center(
-                  child: MyButton(content: 'Reports', onPressed: () {}),
-                ),
+              Center(
+                child: MyButton(content: 'Reports', onPressed: () {}),
               ),
             ])),
       ),
