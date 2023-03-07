@@ -1,21 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+
+// ************************ Initialising Dimensions ***************************
+
+final double deviceHeight = Get.height.roundToDouble();
+final double deviceWidtht = Get.width.roundToDouble();
+
+final double deviceWidth = deviceWidtht * 0.95;
+final double safeArea = deviceHeight * 0.07;
+final double tabHeight = deviceHeight * 0.08;
+final double cardHeight = deviceHeight * 0.25;
+final double listHeight = deviceHeight * 0.57;
+final double h05 = deviceHeight * 0.005;
+final double h10 = deviceHeight * 0.01;
+final double h15 = deviceHeight * 0.015;
+final double h20 = deviceHeight * 0.02;
+final double h25 = deviceHeight * 0.025;
+final double h50 = deviceHeight * 0.05;
+final double h75 = deviceHeight * 0.075;
+final double h100 = deviceHeight * 0.1;
 
 // ************************* Initialising Color Variables *********************
+
+const Color transparent = Colors.transparent;
 const Color appBarColor = Color(0xff76ABDF);
 const Color cardColor = Color.fromARGB(255, 240, 240, 240);
 const Color cardFontColor = Colors.black;
 Color temp = Colors.white;
-
-// ************************* Initialising Numering Variables ******************
-
-double demoAmount = 132000;
-double demoAmount1 = 98000;
-DateFormat dateFormat = DateFormat('dd (E)');
-DateFormat monthFormat = DateFormat('MMM');
-DateFormat yearFormat = DateFormat('yyyy');
-DateFormat cardFormat = DateFormat('dd - MMM - yyyy');
-DateTime dateSelected = DateTime.now();
 
 // ************************* Custom Text Widget ******************************//
 
@@ -97,5 +108,25 @@ class _MyButtonState extends State<MyButton> {
         ),
       ),
     );
+  }
+}
+
+//***************************** Decoration *************** */
+
+class MyCustomIndicator extends Decoration {
+  @override
+  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
+    return _MyCustomIndicatorPainter();
+  }
+}
+
+class _MyCustomIndicatorPainter extends BoxPainter {
+  @override
+  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
+    final rect = offset & configuration.size!;
+    final paint = Paint()
+      ..color = appBarColor
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(Offset(rect.center.dx, rect.bottom - 2), h05, paint);
   }
 }
