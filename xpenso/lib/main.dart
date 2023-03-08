@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:xpenso/utils/add_expenses.dart';
 import 'package:xpenso/utils/tabs.dart';
 import 'constans.dart';
 
@@ -22,40 +23,63 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      initialIndex: 1,
-      animationDuration: Duration(milliseconds: 500),
-      child: Scaffold(
-          appBar: AppBar(
-            toolbarHeight: tabHeight,
-            elevation: 0,
-            backgroundColor: transparent,
-            centerTitle: true,
-            title: TabBar(
-                labelPadding: EdgeInsets.symmetric(horizontal: 20),
-                isScrollable: true,
-                labelStyle:
-                    TextStyle(fontSize: h20, fontWeight: FontWeight.bold),
-                unselectedLabelStyle: TextStyle(fontSize: h20),
-                unselectedLabelColor: Colors.black,
-                labelColor: appBarColor,
-                indicator: MyCustomIndicator(),
-                tabs: const [
-                  Tab(
-                    text: 'Charts',
-                  ),
-                  Tab(
-                    text: 'Home',
-                  ),
-                  Tab(
-                    text: 'Reports',
-                  )
-                ]),
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: transparent,
+        foregroundColor: appBarColor,
+        centerTitle: true,
+        title: MyText(
+          content: 'XpenZo',
+          size: h25,
+          isHeader: true,
+          color: appBarColor,
+        ),
+        actions: [
+          Icon(
+            Icons.access_alarm,
+            size: 30,
           ),
-          body: TabBarView(
-              physics: BouncingScrollPhysics(),
-              children: const [MyHomeDay(), MyHomeDay(), MyHomeDay()])),
+          SizedBox(
+            width: h25,
+          )
+        ],
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: h15,
+            ),
+            ExpenseCard(
+              onPressedCredit: () {
+                setState(() {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return AddCredit();
+                    },
+                  );
+                });
+              },
+              onPressedDebit: () {
+                setState(() {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        height: h100,
+                        color: appBarColor,
+                      );
+                    },
+                  );
+                });
+              },
+            )
+          ],
+        ),
+      ),
+      drawer: Drawer(),
     );
   }
 }

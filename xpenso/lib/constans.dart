@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 // ************************ Initialising Dimensions ***************************
 
@@ -23,10 +24,21 @@ final double h100 = deviceHeight * 0.1;
 // ************************* Initialising Color Variables *********************
 
 const Color transparent = Colors.transparent;
-const Color appBarColor = Color(0xff76ABDF);
+const Color appBarColor = Color.fromARGB(141, 118, 171, 223);
 const Color cardColor = Color.fromARGB(255, 240, 240, 240);
 const Color cardFontColor = Colors.black;
 Color temp = Colors.white;
+
+// ************************* Initalizing Date formatting  *********************
+
+DateTime date = DateTime.now();
+DateTime modDate = DateTime(d1.year - 5, d1.month - 1, d1.day - 5);
+DateFormat day = DateFormat('EEE');
+DateFormat month = DateFormat('MMM');
+DateFormat year = DateFormat('yyyy');
+
+String dateNow = date.toIso8601String();
+DateTime d1 = DateTime.parse(dateNow);
 
 // ************************* Custom Text Widget ******************************//
 
@@ -111,7 +123,7 @@ class _MyButtonState extends State<MyButton> {
   }
 }
 
-//***************************** Decoration *************** */
+//*********************************** Decoration ******************************
 
 class MyCustomIndicator extends Decoration {
   @override
