@@ -8,10 +8,10 @@ final double deviceHeight = Get.height.roundToDouble();
 final double deviceWidtht = Get.width.roundToDouble();
 
 final double deviceWidth = deviceWidtht * 0.95;
-final double safeArea = deviceHeight * 0.07;
-final double tabHeight = deviceHeight * 0.08;
-final double cardHeight = deviceHeight * 0.25;
-final double listHeight = deviceHeight * 0.57;
+final double tabHeight = deviceHeight * 0.07;
+final double cardHeight = deviceHeight * 0.21;
+final double cardHeight1 = deviceHeight * 0.15;
+final double listHeight = deviceHeight * 0.55;
 final double h05 = deviceHeight * 0.005;
 final double h10 = deviceHeight * 0.01;
 final double h15 = deviceHeight * 0.015;
@@ -21,24 +21,22 @@ final double h50 = deviceHeight * 0.05;
 final double h75 = deviceHeight * 0.075;
 final double h100 = deviceHeight * 0.1;
 
+final double cardFontSize = deviceHeight * 0.022;
+
 // ************************* Initialising Color Variables *********************
 
 const Color transparent = Colors.transparent;
 const Color appBarColor = Color.fromARGB(141, 118, 171, 223);
 const Color cardColor = Color.fromARGB(255, 240, 240, 240);
 const Color cardFontColor = Colors.black;
-Color temp = Colors.white;
 
 // ************************* Initalizing Date formatting  *********************
 
 DateTime date = DateTime.now();
-DateTime modDate = DateTime(d1.year - 5, d1.month - 1, d1.day - 5);
-DateFormat day = DateFormat('EEE');
-DateFormat month = DateFormat('MMM');
+DateFormat day = DateFormat('dd - MMM');
+DateFormat month = DateFormat('MMM - yy');
 DateFormat year = DateFormat('yyyy');
-
-String dateNow = date.toIso8601String();
-DateTime d1 = DateTime.parse(dateNow);
+int durationIndex = 0;
 
 // ************************* Custom Text Widget ******************************//
 

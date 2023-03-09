@@ -5,6 +5,7 @@ import 'package:xpenso/utils/tabs.dart';
 import 'constans.dart';
 
 // Main Program Starts here
+PageController pageController = PageController();
 
 void main(List<String> args) {
   runApp(MaterialApp(
@@ -27,54 +28,79 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: transparent,
-        foregroundColor: appBarColor,
+        foregroundColor: Colors.black,
         centerTitle: true,
         title: MyText(
           content: 'XpenZo',
           size: h25,
           isHeader: true,
-          color: appBarColor,
+          color: Colors.black,
         ),
-        actions: [
-          Icon(
-            Icons.access_alarm,
-            size: 30,
-          ),
-          SizedBox(
-            width: h25,
-          )
-        ],
       ),
       body: Center(
         child: Column(
           children: [
             SizedBox(
+              height: h10,
+            ),
+//******************************** Duration Card *******************************/
+            DurationCard(),
+            SizedBox(
               height: h15,
             ),
-            ExpenseCard(
-              onPressedCredit: () {
-                setState(() {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return AddCredit();
-                    },
-                  );
-                });
-              },
-              onPressedDebit: () {
-                setState(() {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return Container(
-                        height: h100,
-                        color: appBarColor,
-                      );
-                    },
-                  );
-                });
-              },
+            SizedBox(
+              height: cardHeight + listHeight,
+              width: deviceWidth,
+              child: PageView(
+                // Page View Starts Here
+                physics: NeverScrollableScrollPhysics(),
+
+                controller: pageController,
+                children: [
+                  Column(
+                    children: [
+//******************************** Main Page - Day ****************************/
+                      SizedBox(
+                        height: cardHeight,
+                        child: ExpenseCard(
+                          onPressedCredit: () {
+                            setState(() {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return AddCredit();
+                                },
+                              );
+                            });
+                          },
+                          onPressedDebit: () {
+                            setState(() {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return AddCredit();
+                                },
+                              );
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: const [
+//******************************** Main Page - Month **************************/
+                      ExpenseCardMonth(),
+                    ],
+                  ),
+                  Column(
+//******************************** Main Page - Year ***************************/
+                    children: const [
+                      ExpenseCardYear(),
+                    ],
+                  ),
+                ],
+              ),
             )
           ],
         ),
