@@ -9,6 +9,10 @@ PageController pageController = PageController();
 
 void main(List<String> args) {
   runApp(MaterialApp(
+    theme: ThemeData(
+        highlightColor: transparent,
+        splashColor: transparent,
+        focusColor: transparent),
     debugShowCheckedModeBanner: false,
     home: HomePage(),
   ));

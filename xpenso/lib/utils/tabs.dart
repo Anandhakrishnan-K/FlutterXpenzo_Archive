@@ -230,19 +230,16 @@ class _DurationCardState extends State<DurationCard> {
                         size: h15,
                       )),
                 ),
-                SizedBox(
-                  width: h25,
-                  child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          date = DateTime.now();
-                        });
-                      },
-                      icon: Icon(
-                        Icons.calendar_month_outlined,
-                        size: h25 + h05,
-                      )),
-                ),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        date = DateTime.now();
+                      });
+                    },
+                    icon: Icon(
+                      Icons.calendar_month_outlined,
+                      size: h25 + h05,
+                    )),
               ],
             ),
           ),
