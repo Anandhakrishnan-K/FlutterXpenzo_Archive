@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xpenso/constans.dart';
 
+// Controllers for the Text Fields 1.Amount 2.Notes
 TextEditingController amountController = TextEditingController();
 TextEditingController notesController = TextEditingController();
 
@@ -24,7 +25,11 @@ class _AddCreditState extends State<AddCredit> {
           SizedBox(
             height: h20 + h20,
           ),
-          const MyText(content: 'Enter Amount *'),
+//******************************* Heading Amount Text ************************/
+          MyText(
+            content: 'Enter Amount *',
+            size: bottomSheetFontsize,
+          ),
           SizedBox(
             height: h20,
           ),
@@ -37,7 +42,9 @@ class _AddCreditState extends State<AddCredit> {
               SizedBox(
                 width: h100,
                 child: MyButton(
-                  content: '- 100',
+                  textSize: bottomSheetFontsize,
+                  content:
+                      '- 100', // Button to subtract -100 form the textfield
                   onPressed: () {
                     if (amountController.text.isNotEmpty) {
                       int tmp = int.parse(amountController.text);
@@ -58,6 +65,7 @@ class _AddCreditState extends State<AddCredit> {
                   fillColor: transparent,
                 ),
               ),
+//******************************* Amount Text Box  ************************/
               SizedBox(
                 height: h50 + h10,
                 width: deviceWidth / 2.5,
@@ -80,7 +88,8 @@ class _AddCreditState extends State<AddCredit> {
               SizedBox(
                 width: h100,
                 child: MyButton(
-                  content: '+ 100',
+                  textSize: bottomSheetFontsize,
+                  content: '+ 100', // Button to add 100 to the textfield
                   onPressed: () {
                     amountController.text.isEmpty
                         ? amountController.text = '0'
@@ -101,13 +110,15 @@ class _AddCreditState extends State<AddCredit> {
               ),
             ],
           ),
+//******************************* Heading Category Text ************************/
           SizedBox(
             height: h50,
           ),
-          const MyText(content: 'Choose Category *'),
+          MyText(size: bottomSheetFontsize, content: 'Choose Category *'),
           SizedBox(
             height: h20,
           ),
+//******************************* Category List *******************************/
           SizedBox(
               height: h75,
               width: deviceWidth,
@@ -129,6 +140,7 @@ class _AddCreditState extends State<AddCredit> {
           SizedBox(
             height: h50,
           ),
+//******************************* Notes And Attachments************************/
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -166,10 +178,12 @@ class _AddCreditState extends State<AddCredit> {
               ),
             ],
           ),
+//******************************* Save button ************************/
           SizedBox(
             height: h50,
           ),
           MyButton(
+              textSize: bottomSheetFontsize,
               width: deviceWidth * 0.75,
               content: widget.submitButtonName,
               onPressed: widget.onPressed)

@@ -23,6 +23,7 @@ final double h75 = deviceHeight * 0.075;
 final double h100 = deviceHeight * 0.1;
 
 final double cardFontSize = deviceHeight * 0.017;
+final double bottomSheetFontsize = deviceHeight * 0.017;
 
 // ************************* Initialising Color Variables *********************
 

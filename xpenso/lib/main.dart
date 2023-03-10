@@ -85,6 +85,7 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         height: cardHeight,
                         child: ExpenseCard(
+//******************************* Adding Credit Buttton ************************/
                           onPressedCredit: () {
                             setState(() {
                               showModalBottomSheet(
@@ -110,6 +111,7 @@ class _HomePageState extends State<HomePage> {
                               );
                             });
                           },
+//******************************* Adding Debit Buttton ************************/
                           onPressedDebit: () {
                             setState(() {
                               showModalBottomSheet(
@@ -122,11 +124,14 @@ class _HomePageState extends State<HomePage> {
                                 elevation: h25,
                                 context: context,
                                 builder: (context) {
-                                  return AddCredit(
-                                    submitButtonName: 'Add Debit / Expense',
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
+                                  return Padding(
+                                    padding: MediaQuery.of(context).viewInsets,
+                                    child: AddCredit(
+                                      submitButtonName: 'Add Debit / Expense',
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
                                   );
                                 },
                               );
