@@ -9,8 +9,8 @@ final double deviceWidtht = Get.width.roundToDouble();
 
 final double deviceWidth = deviceWidtht * 0.95;
 final double tabHeight = deviceHeight * 0.07;
-final double cardHeight = deviceHeight * 0.21;
-final double cardHeight1 = deviceHeight * 0.15;
+final double cardHeight = deviceHeight * 0.18;
+final double cardHeight1 = deviceHeight * 0.12;
 final double listHeight = deviceHeight * 0.55;
 final double h05 = deviceHeight * 0.005;
 final double h10 = deviceHeight * 0.01;
@@ -21,7 +21,7 @@ final double h50 = deviceHeight * 0.05;
 final double h75 = deviceHeight * 0.075;
 final double h100 = deviceHeight * 0.1;
 
-final double cardFontSize = deviceHeight * 0.022;
+final double cardFontSize = deviceHeight * 0.018;
 
 // ************************* Initialising Color Variables *********************
 
@@ -110,6 +110,7 @@ class _MyButtonState extends State<MyButton> {
           borderRadius: BorderRadius.circular(widget.rad)),
       child: TextButton(
         onPressed: widget.onPressed,
+        style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
         child: MyText(
           content: widget.content,
           color: widget.textcolor,

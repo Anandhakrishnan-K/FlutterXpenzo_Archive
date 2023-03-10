@@ -58,22 +58,21 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     MyText(
                       content: '1206', // Total Income
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h10,
                       isHeader: true,
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: h25,
+                  height: h15,
                 ),
 //********************************* Add Crediit Button ************************/
                 MyButton(
                     content: 'Add Credit',
                     fillColor: transparent,
-                    borderColor: cardFontColor,
+                    borderColor: transparent,
                     textcolor: cardFontColor,
-                    isBold: true,
-                    textSize: cardFontSize - 5,
+                    textSize: cardFontSize,
                     height: h50,
                     onPressed: widget.onPressedCredit)
               ],
@@ -109,22 +108,21 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     MyText(
                       content: '126', // Total Expense
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h10,
                       isHeader: true,
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: h25,
+                  height: h15,
                 ),
 //********************************* Add Debit Button ************************/
                 MyButton(
                     content: 'Add Debit',
                     fillColor: transparent,
-                    borderColor: cardFontColor,
+                    borderColor: transparent,
                     textcolor: cardFontColor,
-                    isBold: true,
-                    textSize: cardFontSize - 5,
+                    textSize: cardFontSize,
                     height: h50,
                     onPressed: widget.onPressedDebit)
               ],
