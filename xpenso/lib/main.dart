@@ -7,9 +7,26 @@ import 'constans.dart';
 // Main Program Starts here
 PageController pageController = PageController();
 
+final MaterialColor colorPrimary = MaterialColor(
+  0xFF91C8FF,
+  const <int, Color>{
+    50: Color(0xFFE9F2F9),
+    100: Color(0xFFC8DDEE),
+    200: Color(0xFFA2C2E2),
+    300: Color(0xFF7BA7D6),
+    400: Color(0xFF5B92CC),
+    500: Color(0xFF3B7DBF),
+    600: Color(0xFF3475B8),
+    700: Color(0xFF2B6BAC),
+    800: Color(0xFF2361A1),
+    900: Color(0xFF174F8E),
+  },
+);
+
 void main(List<String> args) {
   runApp(MaterialApp(
     theme: ThemeData(
+        primarySwatch: colorPrimary,
         highlightColor: transparent,
         splashColor: transparent,
         focusColor: transparent),
@@ -29,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: transparent,
@@ -70,9 +88,24 @@ class _HomePageState extends State<HomePage> {
                           onPressedCredit: () {
                             setState(() {
                               showModalBottomSheet(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(h20),
+                                        topRight: Radius.circular(h20))),
+                                isDismissible: false,
+                                isScrollControlled: true,
+                                elevation: h25,
                                 context: context,
                                 builder: (context) {
-                                  return AddCredit();
+                                  return Padding(
+                                      padding:
+                                          MediaQuery.of(context).viewInsets,
+                                      child: AddCredit(
+                                        submitButtonName: 'Add credit / Income',
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ));
                                 },
                               );
                             });
@@ -80,9 +113,21 @@ class _HomePageState extends State<HomePage> {
                           onPressedDebit: () {
                             setState(() {
                               showModalBottomSheet(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(h20),
+                                        topRight: Radius.circular(h20))),
+                                isDismissible: false,
+                                isScrollControlled: true,
+                                elevation: h25,
                                 context: context,
                                 builder: (context) {
-                                  return AddCredit();
+                                  return AddCredit(
+                                    submitButtonName: 'Add Debit / Expense',
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  );
                                 },
                               );
                             });

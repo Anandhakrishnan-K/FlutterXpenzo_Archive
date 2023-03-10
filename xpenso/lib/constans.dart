@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 // ************************ Initialising Dimensions ***************************
@@ -21,7 +22,7 @@ final double h50 = deviceHeight * 0.05;
 final double h75 = deviceHeight * 0.075;
 final double h100 = deviceHeight * 0.1;
 
-final double cardFontSize = deviceHeight * 0.018;
+final double cardFontSize = deviceHeight * 0.017;
 
 // ************************* Initialising Color Variables *********************
 
@@ -56,14 +57,13 @@ class MyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      content,
-      style: TextStyle(
-          fontSize: size,
-          color: color,
-          fontWeight: isHeader ? FontWeight.bold : FontWeight.normal),
-      overflow: overflow,
-    );
+    return Text(content,
+        style: GoogleFonts.poppins(
+          textStyle: TextStyle(
+              fontSize: size,
+              color: color,
+              fontWeight: isHeader ? FontWeight.bold : FontWeight.normal),
+        ));
   }
 }
 

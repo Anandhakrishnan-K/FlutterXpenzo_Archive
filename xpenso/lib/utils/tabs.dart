@@ -48,12 +48,14 @@ class _ExpenseCardState extends State<ExpenseCard> {
                   height: h20,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h05,
+                    ),
+                    SizedBox(
+                      width: h05,
                     ),
                     MyText(
                       content: '1206', // Total Income
@@ -64,7 +66,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                   ],
                 ),
                 SizedBox(
-                  height: h15,
+                  height: h10,
                 ),
 //********************************* Add Crediit Button ************************/
                 MyButton(
@@ -103,7 +105,10 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h05,
+                    ),
+                    SizedBox(
+                      width: h05,
                     ),
                     MyText(
                       content: '126', // Total Expense
@@ -114,7 +119,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                   ],
                 ),
                 SizedBox(
-                  height: h15,
+                  height: h10,
                 ),
 //********************************* Add Debit Button ************************/
                 MyButton(
@@ -145,6 +150,7 @@ class DurationCard extends StatefulWidget {
 class _DurationCardState extends State<DurationCard> {
   Future pickDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
+        initialEntryMode: DatePickerEntryMode.calendarOnly,
         context: context,
         initialDate: date,
         firstDate: DateTime(2000),
@@ -217,7 +223,7 @@ class _DurationCardState extends State<DurationCard> {
                               ? month.format(date)
                               : year.format(date),
                       isHeader: true,
-                      size: h20,
+                      size: cardFontSize,
                     ),
                   ),
                 ),
@@ -276,7 +282,7 @@ class _DurationCardState extends State<DurationCard> {
             },
             height: h50,
             width: h50,
-            textSize: durationIndex == 0 ? h25 + h05 : h25,
+            textSize: durationIndex == 0 ? h25 : h20,
           ),
           SizedBox(
             width: h20,
@@ -297,7 +303,7 @@ class _DurationCardState extends State<DurationCard> {
             },
             height: h50,
             width: h50,
-            textSize: durationIndex == 1 ? h25 + h05 : h25,
+            textSize: durationIndex == 1 ? h25 : h20,
           ),
           SizedBox(
             width: h20,
@@ -318,7 +324,7 @@ class _DurationCardState extends State<DurationCard> {
             },
             height: h50,
             width: h50,
-            textSize: durationIndex == 2 ? h25 + h05 : h25,
+            textSize: durationIndex == 2 ? h25 : h20,
           ),
         ],
       ),
@@ -370,7 +376,10 @@ class ExpenseCardMonth extends StatelessWidget {
                     Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h05,
+                    ),
+                    SizedBox(
+                      width: h05,
                     ),
                     MyText(
                       content: '12060', // Total Income
@@ -408,7 +417,10 @@ class ExpenseCardMonth extends StatelessWidget {
                     Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h05,
+                    ),
+                    SizedBox(
+                      width: h05,
                     ),
                     MyText(
                       content: '1260', // Total Expense
@@ -472,7 +484,10 @@ class ExpenseCardYear extends StatelessWidget {
                     Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h05,
+                    ),
+                    SizedBox(
+                      width: h05,
                     ),
                     MyText(
                       content: '1206000', // Total Income
@@ -510,7 +525,10 @@ class ExpenseCardYear extends StatelessWidget {
                     Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h05,
+                    ),
+                    SizedBox(
+                      width: h05,
                     ),
                     MyText(
                       content: '12060', // Total Expense
