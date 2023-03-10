@@ -58,7 +58,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     MyText(
                       content: '1206', // Total Income
                       color: cardFontColor,
-                      size: cardFontSize + h10,
+                      size: cardFontSize + h05,
                       isHeader: true,
                     ),
                   ],
@@ -108,7 +108,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     MyText(
                       content: '126', // Total Expense
                       color: cardFontColor,
-                      size: cardFontSize + h10,
+                      size: cardFontSize + h05,
                       isHeader: true,
                     ),
                   ],
@@ -143,6 +143,20 @@ class DurationCard extends StatefulWidget {
 }
 
 class _DurationCardState extends State<DurationCard> {
+  Future pickDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: date,
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2050));
+
+    if (picked != null && picked != date) {
+      setState(() {
+        date = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -228,11 +242,13 @@ class _DurationCardState extends State<DurationCard> {
                         size: h15,
                       )),
                 ),
+//********************************* Calendar Button ************************/
                 IconButton(
                     onPressed: () {
                       setState(() {
                         date = DateTime.now();
                       });
+                      pickDate(context);
                     },
                     icon: Icon(
                       Icons.calendar_month_outlined,
@@ -359,7 +375,7 @@ class ExpenseCardMonth extends StatelessWidget {
                     MyText(
                       content: '12060', // Total Income
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h05,
                       isHeader: true,
                     ),
                   ],
@@ -397,7 +413,7 @@ class ExpenseCardMonth extends StatelessWidget {
                     MyText(
                       content: '1260', // Total Expense
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h05,
                       isHeader: true,
                     ),
                   ],
@@ -461,7 +477,7 @@ class ExpenseCardYear extends StatelessWidget {
                     MyText(
                       content: '1206000', // Total Income
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h05,
                       isHeader: true,
                     ),
                   ],
@@ -499,7 +515,7 @@ class ExpenseCardYear extends StatelessWidget {
                     MyText(
                       content: '12060', // Total Expense
                       color: cardFontColor,
-                      size: cardFontSize,
+                      size: cardFontSize + h05,
                       isHeader: true,
                     ),
                   ],
