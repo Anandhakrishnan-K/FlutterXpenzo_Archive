@@ -22,21 +22,21 @@ class _AddCreditState extends State<AddCredit> {
       height: listHeight * 1.075,
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: h20 + h20,
           ),
 //******************************* Heading Amount Text ************************/
-          MyText(
+          const MyText(
             content: 'Enter Amount *',
             size: bottomSheetFontsize,
           ),
-          SizedBox(
+          const SizedBox(
             height: h20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: h05,
               ),
               SizedBox(
@@ -74,7 +74,7 @@ class _AddCreditState extends State<AddCredit> {
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(h05),
+                    contentPadding: const EdgeInsets.all(h05),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(h10)),
                     suffixIcon: IconButton(
@@ -105,17 +105,17 @@ class _AddCreditState extends State<AddCredit> {
                   fillColor: transparent,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: h05,
               ),
             ],
           ),
 //******************************* Heading Category Text ************************/
-          SizedBox(
+          const SizedBox(
             height: h50,
           ),
-          MyText(size: bottomSheetFontsize, content: 'Choose Category *'),
-          SizedBox(
+          const MyText(size: bottomSheetFontsize, content: 'Choose Category *'),
+          const SizedBox(
             height: h20,
           ),
 //******************************* Category List *******************************/
@@ -127,7 +127,7 @@ class _AddCreditState extends State<AddCredit> {
                 itemCount: 20,
                 itemBuilder: (context, index) {
                   return Container(
-                    padding: EdgeInsets.symmetric(horizontal: h10),
+                    padding: const EdgeInsets.symmetric(horizontal: h10),
                     child: MyButton(
                         width: h75,
                         content: (index + 1).toString(),
@@ -137,14 +137,14 @@ class _AddCreditState extends State<AddCredit> {
                   );
                 },
               )),
-          SizedBox(
+          const SizedBox(
             height: h50,
           ),
 //******************************* Notes And Attachments************************/
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: h10,
               ),
               SizedBox(
@@ -154,7 +154,7 @@ class _AddCreditState extends State<AddCredit> {
                   keyboardType: TextInputType.text,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(h20),
+                    contentPadding: const EdgeInsets.all(h20),
                     hintText: 'Enter Notes (Optional)',
                     suffixIcon: IconButton(
                         onPressed: () {
@@ -164,22 +164,22 @@ class _AddCreditState extends State<AddCredit> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: h10,
               ),
               IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.attachment_outlined,
                     size: deviceWidth * 0.1,
                   )),
-              SizedBox(
+              const SizedBox(
                 width: h10,
               ),
             ],
           ),
 //******************************* Save button ************************/
-          SizedBox(
+          const SizedBox(
             height: h50,
           ),
           MyButton(

@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 // ************************ Initialising Dimensions ***************************
 
-final double deviceHeight = Get.height.roundToDouble();
-final double deviceWidtht = Get.width.roundToDouble();
+const double deviceHeight = 800;
+const double deviceWidtht = 390;
 
-final double deviceWidth = deviceWidtht * 0.95;
-final double tabHeight = deviceHeight * 0.07;
-final double cardHeight = deviceHeight * 0.18;
-final double cardHeight1 = deviceHeight * 0.12;
-final double listHeight = deviceHeight * 0.55;
-final double h05 = deviceHeight * 0.005;
-final double h10 = deviceHeight * 0.01;
-final double h15 = deviceHeight * 0.015;
-final double h20 = deviceHeight * 0.02;
-final double h25 = deviceHeight * 0.025;
-final double h50 = deviceHeight * 0.05;
-final double h75 = deviceHeight * 0.075;
-final double h100 = deviceHeight * 0.1;
+const double deviceWidth = deviceWidtht * 0.95;
+const double tabHeight = deviceHeight * 0.07;
+const double cardHeight = deviceHeight * 0.18;
+const double cardHeight1 = deviceHeight * 0.12;
+const double listHeight = deviceHeight * 0.55;
+const double h05 = deviceHeight * 0.005;
+const double h10 = deviceHeight * 0.01;
+const double h15 = deviceHeight * 0.015;
+const double h20 = deviceHeight * 0.02;
+const double h25 = deviceHeight * 0.025;
+const double h50 = deviceHeight * 0.05;
+const double h75 = deviceHeight * 0.075;
+const double h100 = deviceHeight * 0.1;
 
-final double cardFontSize = deviceHeight * 0.017;
-final double bottomSheetFontsize = deviceHeight * 0.017;
+const double w05 = deviceWidth * 0.005;
+const double w10 = deviceWidth * 0.01;
+const double w15 = deviceWidth * 0.015;
+const double w20 = deviceWidth * 0.02;
+const double w25 = deviceWidth * 0.025;
+const double w50 = deviceWidth * 0.05;
+const double w75 = deviceWidth * 0.075;
+const double w100 = deviceWidth * 0.1;
+
+const double cardFontSize = deviceHeight * 0.017;
+const double bottomSheetFontsize = deviceHeight * 0.017;
 
 // ************************* Initialising Color Variables *********************
 
@@ -58,13 +65,13 @@ class MyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(content,
-        style: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: size,
-              color: color,
-              fontWeight: isHeader ? FontWeight.bold : FontWeight.normal),
-        ));
+    return Text(
+      content,
+      style: TextStyle(
+          fontSize: size,
+          color: color,
+          fontWeight: isHeader ? FontWeight.bold : FontWeight.normal),
+    );
   }
 }
 
