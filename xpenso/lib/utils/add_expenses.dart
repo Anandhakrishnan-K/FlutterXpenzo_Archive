@@ -5,6 +5,99 @@ import 'package:xpenso/constans.dart';
 TextEditingController amountController = TextEditingController();
 TextEditingController notesController = TextEditingController();
 
+List<bool> selectedIndex1 = List.filled(expenseList.length, false);
+List<Widget> expenseList = [
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/expenses.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/animal.png'),
+    semanticLabel: 'Livestock',
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/bill.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/budget.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/bus.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/cinema.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/electricity.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/faucet.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/food.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/fuel.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/gas.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/haircut.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/internet.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/investment.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/nachos.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/online-shop.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/purchase.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/restaurant.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/stationery.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/subs.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/vegies.png'),
+  ),
+  ImageIcon(
+    size: h50,
+    const AssetImage('assets/icons/wardrobe.png'),
+  ),
+];
+
 class AddCredit extends StatefulWidget {
   final Function()? onPressed;
   final String submitButtonName;
@@ -17,26 +110,34 @@ class AddCredit extends StatefulWidget {
 
 class _AddCreditState extends State<AddCredit> {
   @override
+  void initState() {
+    super.initState();
+    amountController.clear();
+    notesController.clear();
+    selectedIndex1 = List.filled(expenseList.length, false);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: listHeight * 1.075,
       child: Column(
         children: [
-          const SizedBox(
+          SizedBox(
             height: h20 + h20,
           ),
 //******************************* Heading Amount Text ************************/
-          const MyText(
+          MyText(
             content: 'Enter Amount *',
             size: bottomSheetFontsize,
           ),
-          const SizedBox(
+          SizedBox(
             height: h20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(
+              SizedBox(
                 width: h05,
               ),
               SizedBox(
@@ -74,7 +175,7 @@ class _AddCreditState extends State<AddCredit> {
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(h05),
+                    contentPadding: EdgeInsets.all(h05),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(h10)),
                     suffixIcon: IconButton(
@@ -105,17 +206,17 @@ class _AddCreditState extends State<AddCredit> {
                   fillColor: transparent,
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 width: h05,
               ),
             ],
           ),
 //******************************* Heading Category Text ************************/
-          const SizedBox(
+          SizedBox(
             height: h50,
           ),
-          const MyText(size: bottomSheetFontsize, content: 'Choose Category *'),
-          const SizedBox(
+          MyText(size: bottomSheetFontsize, content: 'Choose Category *'),
+          SizedBox(
             height: h20,
           ),
 //******************************* Category List *******************************/
@@ -123,28 +224,43 @@ class _AddCreditState extends State<AddCredit> {
               height: h75,
               width: deviceWidth,
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                itemCount: 20,
+                itemCount: expenseList.length,
                 itemBuilder: (context, index) {
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: h10),
-                    child: MyButton(
-                        width: h75,
-                        content: (index + 1).toString(),
-                        onPressed: () {
-                          debugPrint('Chosed Categore  ${index + 1}');
-                        }),
-                  );
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(h15),
+                          border: Border.all(
+                            color: selectedIndex1[index]
+                                ? Colors.black
+                                : transparent,
+                          )),
+                      padding: EdgeInsets.symmetric(horizontal: h10),
+                      child: IconButton(
+                          onPressed: () {
+                            debugPrint('Seleted Category Sucessfully');
+                            setState(() {
+                              if (selectedIndex1[index] == true) {
+                                selectedIndex1[index] = !selectedIndex1[index];
+                              } else {
+                                selectedIndex1 =
+                                    List.filled(expenseList.length, false);
+                                selectedIndex1[index] = !selectedIndex1[index];
+                              }
+                            });
+                          },
+                          icon: expenseList[index]));
                 },
               )),
-          const SizedBox(
+          SizedBox(
             height: h50,
           ),
 //******************************* Notes And Attachments************************/
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(
+              SizedBox(
                 width: h10,
               ),
               SizedBox(
@@ -154,7 +270,7 @@ class _AddCreditState extends State<AddCredit> {
                   keyboardType: TextInputType.text,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(h20),
+                    contentPadding: EdgeInsets.all(h20),
                     hintText: 'Enter Notes (Optional)',
                     suffixIcon: IconButton(
                         onPressed: () {
@@ -164,22 +280,22 @@ class _AddCreditState extends State<AddCredit> {
                   ),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 width: h10,
               ),
               IconButton(
                   onPressed: () {},
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.attachment_outlined,
                     size: deviceWidth * 0.1,
                   )),
-              const SizedBox(
+              SizedBox(
                 width: h10,
               ),
             ],
           ),
 //******************************* Save button ************************/
-          const SizedBox(
+          SizedBox(
             height: h50,
           ),
           MyButton(

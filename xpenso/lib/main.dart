@@ -142,14 +142,16 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Column(
-                    children: const [
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
 //******************************** Main Page - Month **************************/
                       ExpenseCardMonth(),
                     ],
                   ),
                   Column(
 //******************************** Main Page - Year ***************************/
-                    children: const [
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
                       ExpenseCardYear(),
                     ],
                   ),

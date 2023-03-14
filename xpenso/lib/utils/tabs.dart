@@ -21,14 +21,15 @@ class _ExpenseCardState extends State<ExpenseCard> {
         height: cardHeight,
         width: deviceWidth,
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.white),
             borderRadius: BorderRadius.circular(h15),
-            gradient:
-                const LinearGradient(transform: GradientRotation(4.5), colors: [
-              transparent,
-              appBarColor,
-              appBarColor,
-            ])),
+            color: appBarColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade500,
+                blurRadius: h05,
+                offset: Offset(0, h05),
+              )
+            ]),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -38,28 +39,28 @@ class _ExpenseCardState extends State<ExpenseCard> {
 //********************************* Income  **********************************/
             Column(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: h25,
                 ),
-                const MyText(
+                MyText(
                   content: 'Total Income',
                   color: cardFontColor,
                   size: cardFontSize,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: h20,
                 ),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
                       size: cardFontSize + h05,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: h05,
                     ),
-                    const MyText(
+                    MyText(
                       content: '1206', // Total Income
                       color: cardFontColor,
                       size: cardFontSize + h05,
@@ -67,7 +68,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     ),
                   ],
                 ),
-                const SizedBox(
+                SizedBox(
                   height: h10,
                 ),
 //********************************* Add Crediit Button ************************/
@@ -81,7 +82,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     onPressed: widget.onPressedCredit)
               ],
             ),
-            const VerticalDivider(
+            VerticalDivider(
               color: Colors.white,
               thickness: 1,
               indent: h25,
@@ -90,29 +91,29 @@ class _ExpenseCardState extends State<ExpenseCard> {
 //********************************* Expense  **********************************/
             Column(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: h25,
                 ),
-                const MyText(
+                MyText(
                   content: 'Total Expense',
                   color: cardFontColor,
                   size: cardFontSize,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: h20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
                       size: cardFontSize + h05,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: h05,
                     ),
-                    const MyText(
+                    MyText(
                       content: '126', // Total Expense
                       color: cardFontColor,
                       size: cardFontSize + h05,
@@ -120,7 +121,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     ),
                   ],
                 ),
-                const SizedBox(
+                SizedBox(
                   height: h10,
                 ),
 //********************************* Add Debit Button ************************/
@@ -174,20 +175,20 @@ class _DurationCardState extends State<DurationCard> {
         children: [
           Container(
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
                 borderRadius: BorderRadius.circular(h15),
-                gradient: const LinearGradient(
-                    transform: GradientRotation(4.5),
-                    colors: [
-                      transparent,
-                      appBarColor,
-                      appBarColor,
-                    ])),
+                color: appBarColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.shade500,
+                    blurRadius: h05,
+                    offset: Offset(0, h05),
+                  )
+                ]),
             width: deviceWidth * 0.5,
             child: Row(
               children: [
-                const SizedBox(
-                  width: w50,
+                SizedBox(
+                  width: w25,
                 ),
 //********************************* Minus Button ************************/
                 SizedBox(
@@ -205,13 +206,13 @@ class _DurationCardState extends State<DurationCard> {
                                       date.year - 1, date.month, date.day);
                         });
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.arrow_back_ios,
                         size: h15,
                         weight: h05,
                       )),
                 ),
-                const SizedBox(
+                SizedBox(
                   width: h05,
                 ),
 //********************************* Duration Text Box ************************/
@@ -225,7 +226,7 @@ class _DurationCardState extends State<DurationCard> {
                               ? month.format(date)
                               : year.format(date),
                       isHeader: true,
-                      size: cardFontSize,
+                      size: cardFontSize * 1.1,
                     ),
                   ),
                 ),
@@ -245,7 +246,7 @@ class _DurationCardState extends State<DurationCard> {
                                       date.year + 1, date.month, date.day);
                         });
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.arrow_forward_ios,
                         size: h15,
                       )),
@@ -258,14 +259,14 @@ class _DurationCardState extends State<DurationCard> {
                       });
                       pickDate(context);
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.calendar_month_outlined,
                       size: h25 + h05,
                     )),
               ],
             ),
           ),
-          const SizedBox(
+          SizedBox(
             width: h20,
           ),
 //********************************* Day Switch Button ************************/
@@ -286,7 +287,7 @@ class _DurationCardState extends State<DurationCard> {
             width: h50,
             textSize: durationIndex == 0 ? h25 : h20,
           ),
-          const SizedBox(
+          SizedBox(
             width: h20,
           ),
 //********************************* Month Switch Button ************************/
@@ -307,7 +308,7 @@ class _DurationCardState extends State<DurationCard> {
             width: h50,
             textSize: durationIndex == 1 ? h25 : h20,
           ),
-          const SizedBox(
+          SizedBox(
             width: h20,
           ),
 //********************************* Year Switch Button ************************/
@@ -344,14 +345,15 @@ class ExpenseCardMonth extends StatelessWidget {
         height: cardHeight1,
         width: deviceWidth,
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.white),
             borderRadius: BorderRadius.circular(h15),
-            gradient:
-                const LinearGradient(transform: GradientRotation(4.5), colors: [
-              transparent,
-              appBarColor,
-              appBarColor,
-            ])),
+            color: appBarColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade500,
+                blurRadius: h05,
+                offset: Offset(0, h05),
+              )
+            ]),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -361,29 +363,29 @@ class ExpenseCardMonth extends StatelessWidget {
 //********************************* Income  **********************************/
             Column(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: h25,
                 ),
-                const MyText(
+                MyText(
                   content: 'Total Income',
                   color: cardFontColor,
                   size: cardFontSize,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: h20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
                       size: cardFontSize + h05,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: h05,
                     ),
-                    const MyText(
+                    MyText(
                       content: '12060', // Total Income
                       color: cardFontColor,
                       size: cardFontSize + h05,
@@ -393,7 +395,7 @@ class ExpenseCardMonth extends StatelessWidget {
                 ),
               ],
             ),
-            const VerticalDivider(
+            VerticalDivider(
               color: Colors.white,
               thickness: 1,
               indent: h25,
@@ -402,29 +404,29 @@ class ExpenseCardMonth extends StatelessWidget {
 //********************************* Expense  **********************************/
             Column(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: h25,
                 ),
-                const MyText(
+                MyText(
                   content: 'Total Expense',
                   color: cardFontColor,
                   size: cardFontSize,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: h20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
                       size: cardFontSize + h05,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: h05,
                     ),
-                    const MyText(
+                    MyText(
                       content: '1260', // Total Expense
                       color: cardFontColor,
                       size: cardFontSize + h05,
@@ -452,14 +454,15 @@ class ExpenseCardYear extends StatelessWidget {
         height: cardHeight1,
         width: deviceWidth,
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.white),
             borderRadius: BorderRadius.circular(h15),
-            gradient:
-                const LinearGradient(transform: GradientRotation(4.5), colors: [
-              transparent,
-              appBarColor,
-              appBarColor,
-            ])),
+            color: appBarColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade500,
+                blurRadius: h05,
+                offset: Offset(0, h05),
+              )
+            ]),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -469,29 +472,29 @@ class ExpenseCardYear extends StatelessWidget {
 //********************************* Income  **********************************/
             Column(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: h25,
                 ),
-                const MyText(
+                MyText(
                   content: 'Total Income',
                   color: cardFontColor,
                   size: cardFontSize,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: h20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
                       size: cardFontSize + h05,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: h05,
                     ),
-                    const MyText(
+                    MyText(
                       content: '1206000', // Total Income
                       color: cardFontColor,
                       size: cardFontSize + h05,
@@ -501,7 +504,7 @@ class ExpenseCardYear extends StatelessWidget {
                 ),
               ],
             ),
-            const VerticalDivider(
+            VerticalDivider(
               color: Colors.white,
               thickness: 1,
               indent: h25,
@@ -510,29 +513,29 @@ class ExpenseCardYear extends StatelessWidget {
 //********************************* Expense  **********************************/
             Column(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: h25,
                 ),
-                const MyText(
+                MyText(
                   content: 'Total Expense',
                   color: cardFontColor,
                   size: cardFontSize,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: h20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.currency_rupee,
                       color: cardFontColor,
                       size: cardFontSize + h05,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: h05,
                     ),
-                    const MyText(
+                    MyText(
                       content: '12060', // Total Expense
                       color: cardFontColor,
                       size: cardFontSize + h05,
