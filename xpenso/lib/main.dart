@@ -1,12 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:xpenso/utils/add_expenses.dart';
+import 'package:xpenso/utils/list_builder.dart';
+import 'package:xpenso/utils/month_list.dart';
 import 'package:xpenso/utils/tabs.dart';
 import 'constans.dart';
 
 // Main Program Starts here
 PageController pageController = PageController();
-
 final MaterialColor colorPrimary = MaterialColor(
   0xFF91C8FF,
   const <int, Color>{
@@ -71,7 +72,7 @@ class _HomePageState extends State<HomePage> {
               height: h15,
             ),
             SizedBox(
-              height: cardHeight + listHeight,
+              height: cardHeight + listHeight + h10,
               width: deviceWidth,
               child: PageView(
                 // Page View Starts Here
@@ -139,13 +140,27 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                       ),
+                      SizedBox(
+                        height: h10,
+                      ),
+                      SizedBox(
+                        height: listHeight,
+                        child: ListBuilder(),
+                      )
                     ],
                   ),
                   Column(
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
 //******************************** Main Page - Month **************************/
-                      ExpenseCardMonth(),
+                      SizedBox(height: cardHeight1, child: ExpenseCardMonth()),
+                      SizedBox(
+                        height: h10,
+                      ),
+                      SizedBox(
+                        height: listHeight + h50,
+                        child: MonthList(),
+                      )
                     ],
                   ),
                   Column(

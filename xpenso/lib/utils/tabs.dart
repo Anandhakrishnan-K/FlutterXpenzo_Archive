@@ -204,7 +204,9 @@ class _DurationCardState extends State<DurationCard> {
                                       date.year, date.month - 1, date.day)
                                   : date = DateTime(
                                       date.year - 1, date.month, date.day);
+                          days = DateTime(date.year, date.month + 1, 0).day;
                         });
+                        debugPrint(days.toString());
                       },
                       icon: Icon(
                         Icons.arrow_back_ios,
@@ -244,6 +246,7 @@ class _DurationCardState extends State<DurationCard> {
                                       date.year, date.month + 1, date.day)
                                   : date = DateTime(
                                       date.year + 1, date.month, date.day);
+                          days = DateTime(date.year, date.month + 1, 0).day;
                         });
                       },
                       icon: Icon(

@@ -11,7 +11,7 @@ final double deviceWidth = deviceWidtht * 0.95;
 final double tabHeight = deviceHeight * 0.07;
 final double cardHeight = deviceHeight * 0.18;
 final double cardHeight1 = deviceHeight * 0.12;
-final double listHeight = deviceHeight * 0.55;
+final double listHeight = deviceHeight * 0.56;
 final double h05 = deviceHeight * 0.005;
 final double h10 = deviceHeight * 0.01;
 final double h15 = deviceHeight * 0.015;
@@ -38,7 +38,8 @@ final double bottomSheetFontsize = deviceHeight * 0.017;
 const Color transparent = Colors.transparent;
 const Color appBarColor = Color(0xffB9D9EB);
 const Color selectedFontColor = Color(0xff4169E1);
-const Color cardColor = Color.fromARGB(255, 240, 240, 240);
+const Color expense = Color(0xffffe3e0);
+const Color income = Color(0xffE5FDD1);
 const Color cardFontColor = Colors.black;
 
 // ************************* Initalizing Date formatting  *********************
@@ -47,6 +48,7 @@ DateTime date = DateTime.now();
 DateFormat day = DateFormat('dd - MMM');
 DateFormat month = DateFormat('MMM - yy');
 DateFormat year = DateFormat('yyyy');
+int days = DateTime(date.year, date.month + 1, 0).day;
 int durationIndex = 0;
 
 // ************************* Custom Text Widget ******************************//
@@ -67,11 +69,15 @@ class MyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(content,
-        style: GoogleFonts.poppins(
-            fontSize: size,
-            color: color,
-            fontWeight: isHeader ? FontWeight.bold : FontWeight.normal));
+    return Text(
+      content,
+      style: GoogleFonts.poppins(
+          fontSize: size,
+          color: color,
+          fontWeight: isHeader ? FontWeight.bold : FontWeight.normal),
+      overflow: overflow,
+      maxLines: 2,
+    );
   }
 }
 
