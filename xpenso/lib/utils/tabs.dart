@@ -1,8 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:xpenso/BLoC/bloc_month.dart';
 import 'package:xpenso/main.dart';
 import '../constans.dart';
+import 'month_list.dart';
+
+final monthBloc = MonthBloc();
 
 class ExpenseCard extends StatefulWidget {
   final Function()? onPressedCredit;
@@ -145,7 +149,6 @@ class _ExpenseCardState extends State<ExpenseCard> {
 
 class DurationCard extends StatefulWidget {
   const DurationCard({super.key});
-
   @override
   State<DurationCard> createState() => _DurationCardState();
 }
@@ -195,17 +198,17 @@ class _DurationCardState extends State<DurationCard> {
                   width: h25,
                   child: IconButton(
                       onPressed: () {
-                        setState(() {
-                          durationIndex == 0
-                              ? date =
-                                  DateTime(date.year, date.month, date.day - 1)
-                              : durationIndex == 1
-                                  ? date = DateTime(
-                                      date.year, date.month - 1, date.day)
-                                  : date = DateTime(
-                                      date.year - 1, date.month, date.day);
-                          days = DateTime(date.year, date.month + 1, 0).day;
-                        });
+                        monthBloc.eventSink.add(MonthEvent.minus);
+                        // setState(() {
+                        //   durationIndex == 0
+                        //       ? date =
+                        //           DateTime(date.year, date.month, date.day - 1)
+                        //       : durationIndex == 1
+                        //           ? monthBloc.eventSink.add(MonthEvent.minus)
+                        //           : date = DateTime(
+                        //               date.year - 1, date.month, date.day);
+                        //   monthList.add(1);
+                        // });
                         debugPrint(days.toString());
                       },
                       icon: Icon(
@@ -221,14 +224,21 @@ class _DurationCardState extends State<DurationCard> {
                 SizedBox(
                   width: h100,
                   child: Center(
-                    child: MyText(
-                      content: durationIndex == 0
-                          ? day.format(date)
-                          : durationIndex == 1
-                              ? month.format(date)
-                              : year.format(date),
-                      isHeader: true,
-                      size: cardFontSize * 1.1,
+                    child: StreamBuilder(
+                      initialData: DateTime.now(),
+                      stream: monthBloc.stateStream,
+                      builder: (context, snapshot) {
+                        DateTime temp = snapshot.data!;
+                        return MyText(
+                          content: durationIndex == 0
+                              ? day.format(temp)
+                              : durationIndex == 1
+                                  ? month.format(temp)
+                                  : year.format(temp),
+                          isHeader: true,
+                          size: cardFontSize * 1.1,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -237,17 +247,18 @@ class _DurationCardState extends State<DurationCard> {
                   width: h25,
                   child: IconButton(
                       onPressed: () {
-                        setState(() {
-                          durationIndex == 0
-                              ? date =
-                                  DateTime(date.year, date.month, date.day + 1)
-                              : durationIndex == 1
-                                  ? date = DateTime(
-                                      date.year, date.month + 1, date.day)
-                                  : date = DateTime(
-                                      date.year + 1, date.month, date.day);
-                          days = DateTime(date.year, date.month + 1, 0).day;
-                        });
+                        monthBloc.eventSink.add(MonthEvent.add);
+                        // setState(() {
+                        //   durationIndex == 0
+                        //       ? date =
+                        //           DateTime(date.year, date.month, date.day + 1)
+                        //       : durationIndex == 1
+                        //           ? date = DateTime(
+                        //               date.year, date.month + 1, date.day)
+                        //           : date = DateTime(
+                        //               date.year + 1, date.month, date.day);
+                        //   monthList.add(1);
+                        // });
                       },
                       icon: Icon(
                         Icons.arrow_forward_ios,

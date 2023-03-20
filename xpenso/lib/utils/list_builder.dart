@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:xpenso/constans.dart';
 
-var list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+var list = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+];
 
 class ListBuilder extends StatefulWidget {
   const ListBuilder({super.key});
@@ -106,44 +121,63 @@ class _ListBuilderState extends State<ListBuilder> {
                     )
                   ]),
               child: ListTile(
-                title: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                title: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    SizedBox(width: w100 * 1.5, child: iconListEx[index]),
                     SizedBox(
-                      height: h20,
-                    ),
-                    Row(
-                      children: [
-                        iconListEx[index],
-                        SizedBox(
-                          width: w100,
-                        ),
-                        Icon(
-                          Icons.currency_rupee_rounded,
-                          color: Colors.black,
-                          size: cardFontSize * 1.5,
-                        ),
-                        SizedBox(
-                          width: w25,
-                        ),
-                        MyText(
-                          content: '100000',
-                          size: cardFontSize * 1.2,
-                          isHeader: true,
-                        )
-                      ],
+                      width: w50,
                     ),
                     SizedBox(
-                      height: h20,
-                    ),
-                    SizedBox(
-                      height: h50,
-                      child: MyText(
-                        content:
-                            'Entered notes to be displayed here ${DateTime(date.year, date.month + 1, 0).day.toString()}',
-                        size: cardFontSize / 1.1,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: h20,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.currency_rupee_rounded,
+                                color: Colors.black,
+                                size: cardFontSize * 1.5,
+                              ),
+                              SizedBox(
+                                width: w25,
+                              ),
+                              MyText(
+                                content: '1000',
+                                size: cardFontSize * 1.2,
+                                isHeader: true,
+                              ),
+                              SizedBox(
+                                width: w25,
+                              ),
+                              Icon(
+                                index % 2 == 0
+                                    ? Icons.arrow_upward
+                                    : Icons.arrow_downward,
+                                color:
+                                    index % 2 == 0 ? Colors.red : Colors.green,
+                                size: cardFontSize * 1.5,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: h20,
+                          ),
+                          SizedBox(
+                            height: h50,
+                            child: MyText(
+                              content:
+                                  'Entered notes to be displayed here ${list.length}',
+                              size: cardFontSize / 1.1,
+                            ),
+                          )
+                        ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -160,113 +194,113 @@ class _ListBuilderState extends State<ListBuilder> {
 List<Widget> iconListEx = [
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/expenses.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/animal.png'),
     semanticLabel: 'Livestock',
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/bill.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/budget.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/bus.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/cinema.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/electricity.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/faucet.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/food.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/fuel.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/gas.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/haircut.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/internet.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/investment.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/nachos.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/online-shop.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/purchase.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/restaurant.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/stationery.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/subs.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/vegies.png'),
   ),
   ImageIcon(
     color: Colors.black,
-    size: h20 + h10,
+    size: h50,
     const AssetImage('assets/icons/wardrobe.png'),
   ),
 ];
