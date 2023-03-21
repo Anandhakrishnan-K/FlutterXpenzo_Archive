@@ -1,26 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:xpenso/BLoC/bloc_duration.dart';
+import 'package:xpenso/BLoC/bloc_page.dart';
 import 'package:xpenso/constans.dart';
+import 'package:xpenso/main.dart';
 import 'package:xpenso/utils/tabs.dart';
 
-class MonthList extends StatefulWidget {
-  const MonthList({super.key});
+final setIndex = SetPageBloc();
+
+class YearList extends StatefulWidget {
+  const YearList({super.key});
 
   @override
-  State<MonthList> createState() => _MonthListState();
+  State<YearList> createState() => _YearListState();
 }
 
-class _MonthListState extends State<MonthList> {
+class _YearListState extends State<YearList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       initialData: DateTime.now(),
-      stream: monthBloc.stateStream,
+      stream: yearBloc.stateStream,
       builder: (context, snapshot) {
-        DateTime temp = snapshot.data!;
-        int daysInMonth = DateTime(temp.year, temp.month + 1, 0).day;
+        date = snapshot.data!;
+        List<DateTime> yearList = [
+          DateTime(date.year, 1, 1),
+          DateTime(date.year, 2, 1),
+          DateTime(date.year, 3, 1),
+          DateTime(date.year, 4, 1),
+          DateTime(date.year, 5, 1),
+          DateTime(date.year, 6, 1),
+          DateTime(date.year, 7, 1),
+          DateTime(date.year, 8, 1),
+          DateTime(date.year, 9, 1),
+          DateTime(date.year, 10, 1),
+          DateTime(date.year, 11, 1),
+          DateTime(date.year, 12, 1)
+        ];
         return ListView.builder(
           physics: const BouncingScrollPhysics(),
-          itemCount: daysInMonth,
+          itemCount: yearList.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: EdgeInsets.only(top: h10),
@@ -57,7 +75,7 @@ class _MonthListState extends State<MonthList> {
                         height: h50,
                         child: MyText(
                           content:
-                              '${month.format(temp)} month data | Row No:$index | Total: $daysInMonth',
+                              '${month.format(yearList[index]).toString()} Data to be Displayed',
                           size: cardFontSize / 1.1,
                         ),
                       )

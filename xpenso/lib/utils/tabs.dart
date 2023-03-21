@@ -1,12 +1,13 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:xpenso/BLoC/bloc_month.dart';
+import 'package:xpenso/BLoC/bloc_duration.dart';
 import 'package:xpenso/main.dart';
 import '../constans.dart';
-import 'month_list.dart';
 
 final monthBloc = MonthBloc();
+final dayBloc = DayBloc();
+final yearBloc = YearBloc();
 
 class ExpenseCard extends StatefulWidget {
   final Function()? onPressedCredit;
@@ -165,186 +166,188 @@ class _DurationCardState extends State<DurationCard> {
     if (picked != null && picked != date) {
       setState(() {
         date = picked;
+        durationIndex == 0
+            ? dayBloc.eventSink.add(DayEvent.jump)
+            : durationIndex == 1
+                ? monthBloc.eventSink.add(MonthEvent.jump)
+                : durationIndex == 2
+                    ? yearBloc.eventSink.add(YearEvent.jump)
+                    : null;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: tabHeight,
-      width: deviceWidth,
-      child: Row(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(h15),
-                color: appBarColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade500,
-                    blurRadius: h05,
-                    offset: Offset(0, h05),
-                  )
-                ]),
-            width: deviceWidth * 0.5,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: w25,
-                ),
-//********************************* Minus Button ************************/
-                SizedBox(
-                  width: h25,
-                  child: IconButton(
-                      onPressed: () {
-                        monthBloc.eventSink.add(MonthEvent.minus);
-                        // setState(() {
-                        //   durationIndex == 0
-                        //       ? date =
-                        //           DateTime(date.year, date.month, date.day - 1)
-                        //       : durationIndex == 1
-                        //           ? monthBloc.eventSink.add(MonthEvent.minus)
-                        //           : date = DateTime(
-                        //               date.year - 1, date.month, date.day);
-                        //   monthList.add(1);
-                        // });
-                        debugPrint(days.toString());
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        size: h15,
-                        weight: h05,
-                      )),
-                ),
-                SizedBox(
-                  width: h05,
-                ),
-//********************************* Duration Text Box ************************/
-                SizedBox(
-                  width: h100,
-                  child: Center(
-                    child: StreamBuilder(
-                      initialData: DateTime.now(),
-                      stream: monthBloc.stateStream,
-                      builder: (context, snapshot) {
-                        DateTime temp = snapshot.data!;
-                        return MyText(
+    return StreamBuilder(
+      initialData: DateTime.now(),
+      stream: durationIndex == 0
+          ? dayBloc.stateStream
+          : durationIndex == 1
+              ? monthBloc.stateStream
+              : yearBloc.stateStream,
+      builder: (context, snapshot) {
+        DateTime temp = snapshot.data!;
+        return SizedBox(
+          height: tabHeight,
+          width: deviceWidth,
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(h15),
+                    color: appBarColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade500,
+                        blurRadius: h05,
+                        offset: Offset(0, h05),
+                      )
+                    ]),
+                width: deviceWidth * 0.5,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: w25,
+                    ),
+                    //********************************* Minus Button ************************/
+                    SizedBox(
+                      width: h25,
+                      child: IconButton(
+                          onPressed: () {
+                            durationIndex == 0
+                                ? dayBloc.eventSink.add(DayEvent.minus)
+                                : durationIndex == 1
+                                    ? monthBloc.eventSink.add(MonthEvent.minus)
+                                    : durationIndex == 2
+                                        ? yearBloc.eventSink
+                                            .add(YearEvent.minus)
+                                        : null;
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            size: h15,
+                            weight: h05,
+                          )),
+                    ),
+                    SizedBox(
+                      width: h05,
+                    ),
+                    //********************************* Duration Text Box ************************/
+                    SizedBox(
+                      width: h100,
+                      child: Center(
+                        child: MyText(
                           content: durationIndex == 0
                               ? day.format(temp)
                               : durationIndex == 1
                                   ? month.format(temp)
-                                  : year.format(temp),
+                                  : durationIndex == 2
+                                      ? year.format(temp)
+                                      : '',
                           isHeader: true,
                           size: cardFontSize * 1.1,
-                        );
-                      },
+                        ),
+                      ),
                     ),
-                  ),
+                    //********************************* Plus Button ************************/
+                    SizedBox(
+                      width: h25,
+                      child: IconButton(
+                          onPressed: () {
+                            durationIndex == 0
+                                ? dayBloc.eventSink.add(DayEvent.add)
+                                : durationIndex == 1
+                                    ? monthBloc.eventSink.add(MonthEvent.add)
+                                    : durationIndex == 2
+                                        ? yearBloc.eventSink.add(YearEvent.add)
+                                        : null;
+                          },
+                          icon: Icon(
+                            Icons.arrow_forward_ios,
+                            size: h15,
+                          )),
+                    ),
+                    //********************************* Calendar Button ************************/
+                    IconButton(
+                        onPressed: () {
+                          dayBloc.eventSink.add(DayEvent.jump0);
+                          pickDate(context);
+                        },
+                        icon: Icon(
+                          Icons.calendar_month_outlined,
+                          size: h25 + h05,
+                        )),
+                  ],
                 ),
-//********************************* Plus Button ************************/
-                SizedBox(
-                  width: h25,
-                  child: IconButton(
-                      onPressed: () {
-                        monthBloc.eventSink.add(MonthEvent.add);
-                        // setState(() {
-                        //   durationIndex == 0
-                        //       ? date =
-                        //           DateTime(date.year, date.month, date.day + 1)
-                        //       : durationIndex == 1
-                        //           ? date = DateTime(
-                        //               date.year, date.month + 1, date.day)
-                        //           : date = DateTime(
-                        //               date.year + 1, date.month, date.day);
-                        //   monthList.add(1);
-                        // });
-                      },
-                      icon: Icon(
-                        Icons.arrow_forward_ios,
-                        size: h15,
-                      )),
-                ),
-//********************************* Calendar Button ************************/
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        date = DateTime.now();
-                      });
-                      pickDate(context);
-                    },
-                    icon: Icon(
-                      Icons.calendar_month_outlined,
-                      size: h25 + h05,
-                    )),
-              ],
-            ),
+              ),
+              SizedBox(
+                width: h20,
+              ),
+              //********************************* Day Switch Button ************************/
+              MyButton(
+                fillColor: transparent,
+                borderColor: transparent,
+                textcolor: durationIndex == 0 ? appBarColor : Colors.black,
+                isBold: true,
+                content: 'D',
+                onPressed: () {
+                  setState(() {
+                    durationIndex = 0;
+                  });
+                  pageController.jumpToPage(0);
+                  dayBloc.eventSink.add(DayEvent.jump0);
+                },
+                height: h50,
+                width: h50,
+                textSize: durationIndex == 0 ? h25 : h20,
+              ),
+              SizedBox(
+                width: h20,
+              ),
+              //********************************* Month Switch Button ************************/
+              MyButton(
+                fillColor: transparent,
+                borderColor: transparent,
+                textcolor: durationIndex == 1 ? appBarColor : Colors.black,
+                isBold: true,
+                content: 'M',
+                onPressed: () {
+                  setState(() {
+                    durationIndex = 1;
+                  });
+                  pageController.jumpToPage(1);
+                  monthBloc.eventSink.add(MonthEvent.jump0);
+                },
+                height: h50,
+                width: h50,
+                textSize: durationIndex == 1 ? h25 : h20,
+              ),
+              SizedBox(
+                width: h20,
+              ),
+              //********************************* Year Switch Button ************************/
+              MyButton(
+                fillColor: transparent,
+                borderColor: transparent,
+                textcolor: durationIndex == 2 ? appBarColor : Colors.black,
+                isBold: true,
+                content: 'Y',
+                onPressed: () {
+                  setState(() {
+                    durationIndex = 2;
+                  });
+                  pageController.jumpToPage(2);
+                  yearBloc.eventSink.add(YearEvent.jump0);
+                },
+                height: h50,
+                width: h50,
+                textSize: durationIndex == 2 ? h25 : h20,
+              ),
+            ],
           ),
-          SizedBox(
-            width: h20,
-          ),
-//********************************* Day Switch Button ************************/
-          MyButton(
-            fillColor: transparent,
-            borderColor: transparent,
-            textcolor: durationIndex == 0 ? appBarColor : Colors.black,
-            isBold: true,
-            content: 'D',
-            onPressed: () {
-              pageController.jumpToPage(0);
-              setState(() {
-                date = DateTime.now();
-                durationIndex = 0;
-              });
-            },
-            height: h50,
-            width: h50,
-            textSize: durationIndex == 0 ? h25 : h20,
-          ),
-          SizedBox(
-            width: h20,
-          ),
-//********************************* Month Switch Button ************************/
-          MyButton(
-            fillColor: transparent,
-            borderColor: transparent,
-            textcolor: durationIndex == 1 ? appBarColor : Colors.black,
-            isBold: true,
-            content: 'M',
-            onPressed: () {
-              pageController.jumpToPage(1);
-              setState(() {
-                date = DateTime.now();
-                durationIndex = 1;
-              });
-            },
-            height: h50,
-            width: h50,
-            textSize: durationIndex == 1 ? h25 : h20,
-          ),
-          SizedBox(
-            width: h20,
-          ),
-//********************************* Year Switch Button ************************/
-          MyButton(
-            fillColor: transparent,
-            borderColor: transparent,
-            textcolor: durationIndex == 2 ? appBarColor : Colors.black,
-            isBold: true,
-            content: 'Y',
-            onPressed: () {
-              pageController.jumpToPage(2);
-              setState(() {
-                date = DateTime.now();
-                durationIndex = 2;
-              });
-            },
-            height: h50,
-            width: h50,
-            textSize: durationIndex == 2 ? h25 : h20,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:xpenso/utils/list_builder.dart';
 import 'package:xpenso/utils/month_list.dart';
 import 'package:xpenso/utils/tabs.dart';
 import 'constans.dart';
+import 'utils/year_list.dart';
 
 // Main Program Starts here
 PageController pageController = PageController();
@@ -167,7 +168,14 @@ class _HomePageState extends State<HomePage> {
 //******************************** Main Page - Year ***************************/
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
-                      ExpenseCardYear(),
+                      SizedBox(height: cardHeight1, child: ExpenseCardMonth()),
+                      SizedBox(
+                        height: h10,
+                      ),
+                      SizedBox(
+                        height: listHeight + h50,
+                        child: YearList(),
+                      )
                     ],
                   ),
                 ],
