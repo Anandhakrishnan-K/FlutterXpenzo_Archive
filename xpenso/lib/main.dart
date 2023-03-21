@@ -9,6 +9,7 @@ import 'utils/year_list.dart';
 
 // Main Program Starts here
 PageController pageController = PageController();
+PageController durationController = PageController();
 final MaterialColor colorPrimary = MaterialColor(
   0xFF91C8FF,
   const <int, Color>{

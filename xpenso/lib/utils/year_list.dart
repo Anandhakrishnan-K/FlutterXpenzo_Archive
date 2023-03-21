@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xpenso/BLoC/bloc_duration.dart';
 import 'package:xpenso/BLoC/bloc_page.dart';
 import 'package:xpenso/constans.dart';
-import 'package:xpenso/main.dart';
 import 'package:xpenso/utils/tabs.dart';
 
 final setIndex = SetPageBloc();

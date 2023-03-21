@@ -181,13 +181,8 @@ class _DurationCardState extends State<DurationCard> {
   Widget build(BuildContext context) {
     return StreamBuilder(
       initialData: DateTime.now(),
-      stream: durationIndex == 0
-          ? dayBloc.stateStream
-          : durationIndex == 1
-              ? monthBloc.stateStream
-              : yearBloc.stateStream,
+      stream: dayBloc.stateStream,
       builder: (context, snapshot) {
-        DateTime temp = snapshot.data!;
         return SizedBox(
           height: tabHeight,
           width: deviceWidth,
@@ -206,13 +201,14 @@ class _DurationCardState extends State<DurationCard> {
                     ]),
                 width: deviceWidth * 0.5,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
                       width: w25,
                     ),
                     //********************************* Minus Button ************************/
                     SizedBox(
-                      width: h25,
+                      width: w50,
                       child: IconButton(
                           onPressed: () {
                             durationIndex == 0
@@ -231,23 +227,59 @@ class _DurationCardState extends State<DurationCard> {
                           )),
                     ),
                     SizedBox(
-                      width: h05,
+                      width: w25,
                     ),
                     //********************************* Duration Text Box ************************/
-                    SizedBox(
-                      width: h100,
-                      child: Center(
-                        child: MyText(
-                          content: durationIndex == 0
-                              ? day.format(temp)
-                              : durationIndex == 1
-                                  ? month.format(temp)
-                                  : durationIndex == 2
-                                      ? year.format(temp)
-                                      : '',
-                          isHeader: true,
-                          size: cardFontSize * 1.1,
-                        ),
+                    Center(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: h20,
+                          ),
+                          SizedBox(
+                            height: h50,
+                            width: w100 * 2,
+                            child: PageView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              controller: durationController,
+                              children: [
+                                StreamBuilder(
+                                  initialData: DateTime.now(),
+                                  stream: dayBloc.stateStream,
+                                  builder: (context, snapshot) {
+                                    return MyText(
+                                      content: day.format(snapshot.data!),
+                                      isHeader: true,
+                                      size: cardFontSize * 1.1,
+                                    );
+                                  },
+                                ),
+                                StreamBuilder(
+                                  initialData: DateTime.now(),
+                                  stream: monthBloc.stateStream,
+                                  builder: (context, snapshot) {
+                                    return MyText(
+                                      content: month.format(snapshot.data!),
+                                      isHeader: true,
+                                      size: cardFontSize * 1.1,
+                                    );
+                                  },
+                                ),
+                                StreamBuilder(
+                                  initialData: DateTime.now(),
+                                  stream: yearBloc.stateStream,
+                                  builder: (context, snapshot) {
+                                    return MyText(
+                                      content: year.format(snapshot.data!),
+                                      isHeader: true,
+                                      size: cardFontSize * 1.1,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     //********************************* Plus Button ************************/
@@ -295,8 +327,11 @@ class _DurationCardState extends State<DurationCard> {
                   setState(() {
                     durationIndex = 0;
                   });
-                  pageController.jumpToPage(0);
                   dayBloc.eventSink.add(DayEvent.jump0);
+                  pageController.jumpToPage(0);
+                  durationController.animateToPage(0,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.linear);
                 },
                 height: h50,
                 width: h50,
@@ -316,8 +351,11 @@ class _DurationCardState extends State<DurationCard> {
                   setState(() {
                     durationIndex = 1;
                   });
-                  pageController.jumpToPage(1);
                   monthBloc.eventSink.add(MonthEvent.jump0);
+                  pageController.jumpToPage(1);
+                  durationController.animateToPage(1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.linear);
                 },
                 height: h50,
                 width: h50,
@@ -337,8 +375,11 @@ class _DurationCardState extends State<DurationCard> {
                   setState(() {
                     durationIndex = 2;
                   });
-                  pageController.jumpToPage(2);
                   yearBloc.eventSink.add(YearEvent.jump0);
+                  pageController.jumpToPage(2);
+                  durationController.animateToPage(2,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.linear);
                 },
                 height: h50,
                 width: h50,
