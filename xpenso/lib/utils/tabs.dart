@@ -200,11 +200,13 @@ class _DurationCardState extends State<DurationCard> {
                       )
                     ]),
                 width: deviceWidth * 0.5,
+                height: tabHeight,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: w25,
+                      width: w10,
                     ),
                     //********************************* Minus Button ************************/
                     SizedBox(
@@ -222,7 +224,7 @@ class _DurationCardState extends State<DurationCard> {
                           },
                           icon: Icon(
                             Icons.arrow_back_ios,
-                            size: h15,
+                            size: w50,
                             weight: h05,
                           )),
                     ),
@@ -230,61 +232,57 @@ class _DurationCardState extends State<DurationCard> {
                       width: w25,
                     ),
                     //********************************* Duration Text Box ************************/
-                    Center(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: h20,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: h50,
+                          width: w100 * 2,
+                          child: PageView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            controller: durationController,
+                            children: [
+                              StreamBuilder(
+                                initialData: DateTime.now(),
+                                stream: dayBloc.stateStream,
+                                builder: (context, snapshot) {
+                                  return MyText(
+                                    content: day.format(snapshot.data!),
+                                    isHeader: true,
+                                    size: cardFontSize * 1.1,
+                                  );
+                                },
+                              ),
+                              StreamBuilder(
+                                initialData: DateTime.now(),
+                                stream: monthBloc.stateStream,
+                                builder: (context, snapshot) {
+                                  return MyText(
+                                    content: month.format(snapshot.data!),
+                                    isHeader: true,
+                                    size: cardFontSize * 1.1,
+                                  );
+                                },
+                              ),
+                              StreamBuilder(
+                                initialData: DateTime.now(),
+                                stream: yearBloc.stateStream,
+                                builder: (context, snapshot) {
+                                  return MyText(
+                                    content: year.format(snapshot.data!),
+                                    isHeader: true,
+                                    size: cardFontSize * 1.1,
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: h50,
-                            width: w100 * 2,
-                            child: PageView(
-                              physics: const NeverScrollableScrollPhysics(),
-                              controller: durationController,
-                              children: [
-                                StreamBuilder(
-                                  initialData: DateTime.now(),
-                                  stream: dayBloc.stateStream,
-                                  builder: (context, snapshot) {
-                                    return MyText(
-                                      content: day.format(snapshot.data!),
-                                      isHeader: true,
-                                      size: cardFontSize * 1.1,
-                                    );
-                                  },
-                                ),
-                                StreamBuilder(
-                                  initialData: DateTime.now(),
-                                  stream: monthBloc.stateStream,
-                                  builder: (context, snapshot) {
-                                    return MyText(
-                                      content: month.format(snapshot.data!),
-                                      isHeader: true,
-                                      size: cardFontSize * 1.1,
-                                    );
-                                  },
-                                ),
-                                StreamBuilder(
-                                  initialData: DateTime.now(),
-                                  stream: yearBloc.stateStream,
-                                  builder: (context, snapshot) {
-                                    return MyText(
-                                      content: year.format(snapshot.data!),
-                                      isHeader: true,
-                                      size: cardFontSize * 1.1,
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     //********************************* Plus Button ************************/
                     SizedBox(
-                      width: h25,
+                      width: w50,
                       child: IconButton(
                           onPressed: () {
                             durationIndex == 0
@@ -297,8 +295,11 @@ class _DurationCardState extends State<DurationCard> {
                           },
                           icon: Icon(
                             Icons.arrow_forward_ios,
-                            size: h15,
+                            size: w50,
                           )),
+                    ),
+                    SizedBox(
+                      width: w05,
                     ),
                     //********************************* Calendar Button ************************/
                     IconButton(

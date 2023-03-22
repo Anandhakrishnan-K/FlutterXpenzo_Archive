@@ -48,9 +48,13 @@ DateTime date = DateTime.now();
 DateFormat day = DateFormat('dd - MMM');
 DateFormat month = DateFormat('MMM - yy');
 DateFormat year = DateFormat('yyyy');
+DateFormat weekDay = DateFormat('EEE');
 int days = DateTime(date.year, date.month + 1, 0).day;
 int durationIndex = 0;
-
+//For Data Storage purpose
+DateFormat d = DateFormat('dd');
+DateFormat m = DateFormat('MMM');
+DateFormat y = DateFormat('YYYY');
 // ************************* Custom Text Widget ******************************//
 
 class MyText extends StatelessWidget {
@@ -76,7 +80,7 @@ class MyText extends StatelessWidget {
           color: color,
           fontWeight: isHeader ? FontWeight.bold : FontWeight.normal),
       overflow: overflow,
-      maxLines: 2,
+      maxLines: 1,
     );
   }
 }
@@ -155,3 +159,68 @@ class _MyCustomIndicatorPainter extends BoxPainter {
     canvas.drawCircle(Offset(rect.center.dx, rect.bottom - 2), h05, paint);
   }
 }
+
+//***************************** Category Image Icon **************************/
+
+class MyImageIcon extends StatelessWidget {
+  final String path;
+  final String name;
+  const MyImageIcon({super.key, required this.path, required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: h75,
+      child: Column(
+        children: [
+          ImageIcon(
+            size: h50 - h10,
+            AssetImage(path),
+            color: Colors.black,
+          ),
+          SizedBox(
+            height: h10,
+          ),
+          MyText(
+            content: name,
+            size: h15,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+//****************************** Lists ***************************/
+
+List<Widget> expenseList = [
+  const MyImageIcon(path: 'assets/icons/plus.png', name: 'Misc'),
+  const MyImageIcon(path: 'assets/icons/bill.png', name: 'Bills'),
+  const MyImageIcon(path: 'assets/icons/nachos.png', name: 'Snacks'),
+  const MyImageIcon(path: 'assets/icons/vegies.png', name: 'Vegies'),
+  const MyImageIcon(path: 'assets/icons/food.png', name: 'Groceries'),
+  const MyImageIcon(path: 'assets/icons/animal.png', name: 'Pets'),
+  const MyImageIcon(path: 'assets/icons/faucet.png', name: 'Mobile Bill'),
+  const MyImageIcon(path: 'assets/icons/electricity.png', name: 'Electricity'),
+  const MyImageIcon(path: 'assets/icons/fuel.png', name: 'Fuel'),
+  const MyImageIcon(path: 'assets/icons/gas.png', name: 'Gas'),
+  const MyImageIcon(path: 'assets/icons/internet.png', name: 'WiFi Bill'),
+  const MyImageIcon(path: 'assets/icons/haircut.png', name: 'Saloon'),
+  const MyImageIcon(path: 'assets/icons/investment.png', name: 'Savings'),
+  const MyImageIcon(path: 'assets/icons/online-shop.png', name: 'Online'),
+  const MyImageIcon(path: 'assets/icons/purchase.png', name: 'Purchase'),
+  const MyImageIcon(path: 'assets/icons/service.png', name: 'Vehicle'),
+  const MyImageIcon(path: 'assets/icons/stationery.png', name: 'Stationery'),
+  const MyImageIcon(path: 'assets/icons/subs.png', name: 'Subscription'),
+  const MyImageIcon(path: 'assets/icons/wardrobe.png', name: 'Cloths'),
+  const MyImageIcon(path: 'assets/icons/restaurant.png', name: 'Restaurant'),
+  const MyImageIcon(path: 'assets/icons/cinema.png', name: 'Movie'),
+  const MyImageIcon(path: 'assets/icons/bus.png', name: 'Travel'),
+];
+
+List<Widget> incomeList = [
+  const MyImageIcon(path: 'assets/icons/plus.png', name: 'Misc'),
+  const MyImageIcon(path: 'assets/icons/salary.png', name: 'Salary'),
+  const MyImageIcon(path: 'assets/icons/returns.png', name: 'Returns'),
+  const MyImageIcon(path: 'assets/icons/bonus.png', name: 'bonus'),
+];

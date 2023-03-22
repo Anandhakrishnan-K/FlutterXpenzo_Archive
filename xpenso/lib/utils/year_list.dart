@@ -34,12 +34,14 @@ class _YearListState extends State<YearList> {
           DateTime(date.year, 11, 1),
           DateTime(date.year, 12, 1)
         ];
-        return ListView.builder(
+        return GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2),
           physics: const BouncingScrollPhysics(),
           itemCount: yearList.length,
           itemBuilder: (context, index) {
             return Padding(
-              padding: EdgeInsets.only(top: h10),
+              padding: EdgeInsets.all(h10),
               child: Container(
                 height: h100 + h25,
                 width: deviceWidth,
@@ -59,24 +61,74 @@ class _YearListState extends State<YearList> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: h20,
-                      ),
-                      MyText(
-                        content: '100000',
-                        size: cardFontSize,
-                        isHeader: true,
+                        height: h10,
                       ),
                       SizedBox(
-                        height: h20,
-                      ),
-                      SizedBox(
-                        height: h50,
+                        height: h25,
                         child: MyText(
-                          content:
-                              '${month.format(yearList[index]).toString()} Data to be Displayed',
+                          content: month.format(yearList[index]).toString(),
                           size: cardFontSize / 1.1,
                         ),
-                      )
+                      ),
+                      SizedBox(
+                        height: h25,
+                        child: MyText(
+                          content: 'Income:',
+                          size: cardFontSize * 1.1,
+                        ),
+                      ),
+                      SizedBox(
+                        height: h10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.currency_rupee_rounded,
+                            color: Colors.black,
+                            size: cardFontSize * 1.2,
+                          ),
+                          SizedBox(
+                            width: w25,
+                          ),
+                          MyText(
+                            content: '1000',
+                            size: cardFontSize * 1.1,
+                            isHeader: true,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: h20,
+                      ),
+                      SizedBox(
+                        height: h25,
+                        child: MyText(
+                          content: 'Expense:',
+                          size: cardFontSize * 1.1,
+                        ),
+                      ),
+                      SizedBox(
+                        height: h10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.currency_rupee_rounded,
+                            color: Colors.black,
+                            size: cardFontSize * 1.2,
+                          ),
+                          SizedBox(
+                            width: w25,
+                          ),
+                          MyText(
+                            content: '1000',
+                            size: cardFontSize * 1.1,
+                            isHeader: true,
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

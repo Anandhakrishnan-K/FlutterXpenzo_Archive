@@ -91,6 +91,7 @@ class _HomePageState extends State<HomePage> {
 //******************************* Adding Credit Buttton ************************/
                           onPressedCredit: () {
                             setState(() {
+                              selectedIndex1 = List.filled(30, false);
                               showModalBottomSheet(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
@@ -105,6 +106,8 @@ class _HomePageState extends State<HomePage> {
                                       padding:
                                           MediaQuery.of(context).viewInsets,
                                       child: AddCredit(
+                                        iscredit: true,
+                                        list: incomeList,
                                         submitButtonName: 'Add credit / Income',
                                         onPressed: () {
                                           Navigator.pop(context);
@@ -117,6 +120,7 @@ class _HomePageState extends State<HomePage> {
 //******************************* Adding Debit Buttton ************************/
                           onPressedDebit: () {
                             setState(() {
+                              selectedIndex1 = List.filled(30, false);
                               showModalBottomSheet(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
@@ -130,6 +134,8 @@ class _HomePageState extends State<HomePage> {
                                   return Padding(
                                     padding: MediaQuery.of(context).viewInsets,
                                     child: AddCredit(
+                                      iscredit: false,
+                                      list: expenseList,
                                       submitButtonName: 'Add Debit / Expense',
                                       onPressed: () {
                                         Navigator.pop(context);

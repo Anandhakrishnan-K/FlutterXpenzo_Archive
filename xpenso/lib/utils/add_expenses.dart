@@ -5,104 +5,19 @@ import 'package:xpenso/constans.dart';
 TextEditingController amountController = TextEditingController();
 TextEditingController notesController = TextEditingController();
 
-List<bool> selectedIndex1 = List.filled(expenseList.length, false);
-List<Widget> expenseList = [
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/expenses.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/animal.png'),
-    semanticLabel: 'Livestock',
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/bill.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/budget.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/bus.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/cinema.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/electricity.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/faucet.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/food.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/fuel.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/gas.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/haircut.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/internet.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/investment.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/nachos.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/online-shop.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/purchase.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/restaurant.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/stationery.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/subs.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/vegies.png'),
-  ),
-  ImageIcon(
-    size: h50,
-    const AssetImage('assets/icons/wardrobe.png'),
-  ),
-];
+List<bool> selectedIndex1 = List.filled(30, false);
 
 class AddCredit extends StatefulWidget {
+  final bool iscredit;
   final Function()? onPressed;
   final String submitButtonName;
+  final List<Widget> list;
   const AddCredit(
-      {super.key, required this.onPressed, required this.submitButtonName});
+      {super.key,
+      required this.onPressed,
+      required this.submitButtonName,
+      required this.list,
+      required this.iscredit});
 
   @override
   State<AddCredit> createState() => _AddCreditState();
@@ -114,17 +29,23 @@ class _AddCreditState extends State<AddCredit> {
     super.initState();
     amountController.clear();
     notesController.clear();
-    selectedIndex1 = List.filled(expenseList.length, false);
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: listHeight * 1.075,
+      height: listHeight * 1.1,
       child: Column(
         children: [
+          IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.cancel_rounded,
+              )),
           SizedBox(
-            height: h20 + h20,
+            height: h10,
           ),
 //******************************* Heading Amount Text ************************/
           MyText(
@@ -221,40 +142,39 @@ class _AddCreditState extends State<AddCredit> {
           ),
 //******************************* Category List *******************************/
           SizedBox(
-              height: h75,
+              height: h100,
               width: deviceWidth,
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                itemCount: expenseList.length,
+                itemCount: widget.list.length,
                 itemBuilder: (context, index) {
                   return Container(
+                      width: h100,
                       decoration: BoxDecoration(
+                          color: selectedIndex1[index]
+                              ? Colors.grey.shade100
+                              : transparent,
                           borderRadius: BorderRadius.circular(h15),
                           border: Border.all(
                             color: selectedIndex1[index]
                                 ? Colors.black
                                 : transparent,
                           )),
-                      padding: EdgeInsets.symmetric(horizontal: h10),
                       child: IconButton(
                           onPressed: () {
-                            debugPrint('Seleted Category Sucessfully');
                             setState(() {
-                              if (selectedIndex1[index] == true) {
-                                selectedIndex1[index] = !selectedIndex1[index];
-                              } else {
-                                selectedIndex1 =
-                                    List.filled(expenseList.length, false);
-                                selectedIndex1[index] = !selectedIndex1[index];
-                              }
+                              selectedIndex1 = List.filled(30, false);
+                              selectedIndex1[index] = !selectedIndex1[index];
                             });
+                            debugPrint(
+                                'Seleted Category Sucessfully $index ${selectedIndex1[index]}');
                           },
-                          icon: expenseList[index]));
+                          icon: widget.list[index]));
                 },
               )),
           SizedBox(
-            height: h50,
+            height: h25,
           ),
 //******************************* Notes And Attachments************************/
           Row(

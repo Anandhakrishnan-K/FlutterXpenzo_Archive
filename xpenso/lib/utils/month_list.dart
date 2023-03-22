@@ -17,15 +17,20 @@ class _MonthListState extends State<MonthList> {
       stream: monthBloc.stateStream,
       builder: (context, snapshot) {
         DateTime temp = snapshot.data!;
+        List<DateTime> tmpList = [];
         int daysInMonth = DateTime(temp.year, temp.month + 1, 0).day;
-        return ListView.builder(
+        for (int i = 1; i <= daysInMonth; i++) {
+          tmpList.add(DateTime(temp.year, temp.month, i));
+        }
+        return GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2),
           physics: const BouncingScrollPhysics(),
           itemCount: daysInMonth,
           itemBuilder: (context, index) {
             return Padding(
-              padding: EdgeInsets.only(top: h10),
+              padding: EdgeInsets.all(h10),
               child: Container(
-                height: h100 + h25,
                 width: deviceWidth,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(h15),
@@ -39,28 +44,77 @@ class _MonthListState extends State<MonthList> {
                     ]),
                 child: ListTile(
                   title: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: h20,
-                      ),
-                      MyText(
-                        content: '100000',
-                        size: cardFontSize,
-                        isHeader: true,
+                        height: h10,
                       ),
                       SizedBox(
-                        height: h20,
-                      ),
-                      SizedBox(
-                        height: h50,
+                        height: h25,
                         child: MyText(
                           content:
-                              '${month.format(temp)} month data | Row No:$index | Total: $daysInMonth',
+                              '${day.format(tmpList[index]).toString()} (${weekDay.format(tmpList[index])})',
                           size: cardFontSize / 1.1,
                         ),
-                      )
+                      ),
+                      SizedBox(
+                        height: h25,
+                        child: MyText(
+                          content: 'Income:',
+                          size: cardFontSize * 1.1,
+                        ),
+                      ),
+                      SizedBox(
+                        height: h10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.currency_rupee_rounded,
+                            color: Colors.black,
+                            size: cardFontSize * 1.2,
+                          ),
+                          SizedBox(
+                            width: w25,
+                          ),
+                          MyText(
+                            content: '1000',
+                            size: cardFontSize * 1.1,
+                            isHeader: true,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: h20,
+                      ),
+                      SizedBox(
+                        height: h25,
+                        child: MyText(
+                          content: 'Expense:',
+                          size: cardFontSize * 1.1,
+                        ),
+                      ),
+                      SizedBox(
+                        height: h10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.currency_rupee_rounded,
+                            color: Colors.black,
+                            size: cardFontSize * 1.2,
+                          ),
+                          SizedBox(
+                            width: w25,
+                          ),
+                          MyText(
+                            content: '1000',
+                            size: cardFontSize * 1.1,
+                            isHeader: true,
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
