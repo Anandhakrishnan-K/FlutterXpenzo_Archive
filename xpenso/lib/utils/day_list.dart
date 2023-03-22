@@ -1,26 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:xpenso/DataBase/data_model.dart';
 import 'package:xpenso/constans.dart';
 import 'package:xpenso/utils/tabs.dart';
 
-var list = [
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12',
-  '13',
-  '14',
-];
-
 class ListBuilder extends StatefulWidget {
-  const ListBuilder({super.key});
+  final List<Ledger> tmpList;
+  const ListBuilder({super.key, required this.tmpList});
 
   @override
   State<ListBuilder> createState() => _ListBuilderState();
@@ -36,9 +21,9 @@ class _ListBuilderState extends State<ListBuilder> {
         DateTime temp = snapshot.data!;
         return ListView.builder(
           physics: const BouncingScrollPhysics(),
-          itemCount: list.length,
+          itemCount: widget.tmpList.length,
           itemBuilder: (context, index) {
-            final item = list[index];
+            final item = widget.tmpList[index].toString();
 
             // Dismissable Widget Startes Here
             return Dismissible(
@@ -96,7 +81,7 @@ class _ListBuilderState extends State<ListBuilder> {
               direction: DismissDirection.endToStart,
               onDismissed: (direction) {
                 setState(() {
-                  list.removeAt(index);
+                  widget.tmpList.removeAt(index);
                 });
 
                 // Display Snack bar when item deleted
@@ -130,7 +115,13 @@ class _ListBuilderState extends State<ListBuilder> {
                     title: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(width: w100 * 2, child: expenseList[index]),
+                        SizedBox(
+                            width: w100 * 2,
+                            child: widget.tmpList[index].categoryFlag == false
+                                ? expenseList[
+                                    widget.tmpList[index].categoryIndex!]
+                                : incomeList[
+                                    widget.tmpList[index].categoryIndex!]),
                         SizedBox(
                           width: w50,
                         ),
@@ -153,7 +144,8 @@ class _ListBuilderState extends State<ListBuilder> {
                                     width: w25,
                                   ),
                                   MyText(
-                                    content: '1000',
+                                    content:
+                                        widget.tmpList[index].amount.toString(),
                                     size: cardFontSize * 1.2,
                                     isHeader: true,
                                   ),
@@ -161,10 +153,11 @@ class _ListBuilderState extends State<ListBuilder> {
                                     width: w25,
                                   ),
                                   Icon(
-                                    index % 2 == 0
+                                    widget.tmpList[index].categoryFlag == false
                                         ? Icons.arrow_upward
                                         : Icons.arrow_downward,
-                                    color: index % 2 == 0
+                                    color: widget.tmpList[index].categoryFlag ==
+                                            false
                                         ? Colors.red
                                         : Colors.green,
                                     size: cardFontSize * 1.5,
@@ -178,7 +171,7 @@ class _ListBuilderState extends State<ListBuilder> {
                                 height: h50,
                                 child: MyText(
                                   content:
-                                      '${day.format(temp)} notes to be displayed here',
+                                      '${day.format(temp)} : ${widget.tmpList[index].notes}',
                                   size: cardFontSize / 1.1,
                                 ),
                               )

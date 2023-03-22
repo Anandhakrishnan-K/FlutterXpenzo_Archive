@@ -166,6 +166,7 @@ class _AddCreditState extends State<AddCredit> {
                             setState(() {
                               selectedIndex1 = List.filled(30, false);
                               selectedIndex1[index] = !selectedIndex1[index];
+                              catIndex = index;
                             });
                             debugPrint(
                                 'Seleted Category Sucessfully $index ${selectedIndex1[index]}');

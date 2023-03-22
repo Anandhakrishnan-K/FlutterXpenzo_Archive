@@ -54,7 +54,7 @@ int durationIndex = 0;
 //For Data Storage purpose
 DateFormat d = DateFormat('dd');
 DateFormat m = DateFormat('MMM');
-DateFormat y = DateFormat('YYYY');
+DateFormat y = DateFormat('yyyy');
 // ************************* Custom Text Widget ******************************//
 
 class MyText extends StatelessWidget {
@@ -193,6 +193,7 @@ class MyImageIcon extends StatelessWidget {
 
 //****************************** Lists ***************************/
 
+int catIndex = 0;
 List<Widget> expenseList = [
   const MyImageIcon(path: 'assets/icons/plus.png', name: 'Misc'),
   const MyImageIcon(path: 'assets/icons/bill.png', name: 'Bills'),

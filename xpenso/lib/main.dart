@@ -1,11 +1,22 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:xpenso/DataBase/data_model.dart';
+import 'package:xpenso/DataBase/db_connnection.dart';
 import 'package:xpenso/utils/add_expenses.dart';
-import 'package:xpenso/utils/list_builder.dart';
+import 'package:xpenso/utils/day_list.dart';
 import 'package:xpenso/utils/month_list.dart';
 import 'package:xpenso/utils/tabs.dart';
 import 'constans.dart';
 import 'utils/year_list.dart';
+
+//Referencing Service
+late List<Ledger> dayData = [];
+final service = Services();
+
+//Function for Getting Data
+String dayDay = d.format(date).toString();
+String monthDay = m.format(date).toString();
+String yearDay = y.format(date).toString();
 
 // Main Program Starts here
 PageController pageController = PageController();
@@ -46,6 +57,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  getDayData() async {
+    var data = await service.getData(dayDay, monthDay, yearDay);
+    data.forEach((ledger) {
+      setState(() {
+        var dataModel = Ledger();
+        dataModel.id = ledger['id'];
+        dataModel.amount = ledger['amount'];
+        dataModel.notes = ledger['notes'];
+        dataModel.categoryIndex = ledger['categoryIndex'];
+        dataModel.categoryFlag = ledger['categoryFlag'] == 1 ? true : false;
+        dataModel.day = ledger['day'];
+        dataModel.month = ledger['month'];
+        dataModel.year = ledger['year'];
+        dataModel.createdT = ledger['createdT'];
+        dataModel.attachmentFlag = ledger['attachmentFlag'] == 1 ? true : false;
+        dataModel.attachmentName = ledger['attachmentName'];
+
+        dayData.add(dataModel);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDayData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,8 +148,29 @@ class _HomePageState extends State<HomePage> {
                                         iscredit: true,
                                         list: incomeList,
                                         submitButtonName: 'Add credit / Income',
-                                        onPressed: () {
-                                          Navigator.pop(context);
+                                        onPressed: () async {
+                                          Ledger ledger = Ledger();
+                                          ledger.amount =
+                                              int.parse(amountController.text);
+                                          ledger.notes = notesController.text;
+                                          ledger.categoryFlag = true;
+                                          ledger.categoryIndex = catIndex;
+                                          ledger.day = d
+                                              .format(DateTime.now())
+                                              .toString();
+                                          ledger.month = m
+                                              .format(DateTime.now())
+                                              .toString();
+                                          ledger.year = y
+                                              .format(DateTime.now())
+                                              .toString();
+                                          ledger.createdT =
+                                              DateTime.now().toString();
+                                          ledger.attachmentFlag = false;
+                                          ledger.attachmentName = 'NA';
+                                          var result =
+                                              await service.saveData(ledger);
+                                          debugPrint(result.toString());
                                         },
                                       ));
                                 },
@@ -137,8 +197,25 @@ class _HomePageState extends State<HomePage> {
                                       iscredit: false,
                                       list: expenseList,
                                       submitButtonName: 'Add Debit / Expense',
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        Ledger ledger = Ledger();
+                                        ledger.amount =
+                                            int.parse(amountController.text);
+                                        ledger.notes = notesController.text;
+                                        ledger.categoryFlag = false;
+                                        ledger.categoryIndex = catIndex;
+                                        ledger.day = d.format(date).toString();
+                                        ledger.month =
+                                            m.format(date).toString();
+                                        ledger.year = y.format(date).toString();
+                                        ledger.createdT =
+                                            DateTime.now().toString();
+                                        ledger.attachmentFlag = false;
+                                        ledger.attachmentName = 'NA';
                                         Navigator.pop(context);
+                                        var result =
+                                            await service.saveData(ledger);
+                                        debugPrint(result.toString());
                                       },
                                     ),
                                   );
@@ -153,7 +230,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       SizedBox(
                         height: listHeight,
-                        child: ListBuilder(),
+                        child: ListBuilder(
+                          tmpList: dayData,
+                        ),
                       )
                     ],
                   ),
