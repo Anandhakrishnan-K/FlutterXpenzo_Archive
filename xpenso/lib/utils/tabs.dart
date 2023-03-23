@@ -3,13 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:xpenso/BLoC/bloc_day_update.dart';
 import 'package:xpenso/BLoC/bloc_duration.dart';
+import 'package:xpenso/BLoC/bloc_month.dart';
 import 'package:xpenso/constans.dart';
 import 'package:xpenso/main.dart';
-
-final monthBloc = MonthBloc();
-final dayBloc = DayBloc();
-final yearBloc = YearBloc();
-final dayUpdateBloc = DayUpdateBloc();
+import 'package:xpenso/utils/month_list.dart';
 
 class ExpenseCard extends StatefulWidget {
   final Function()? onPressedCredit;
@@ -67,11 +64,18 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     SizedBox(
                       width: h05,
                     ),
-                    MyText(
-                      content: '1206', // Total Income
-                      color: cardFontColor,
-                      size: cardFontSize + h05,
-                      isHeader: true,
+                    StreamBuilder(
+                      stream: dayTotalCreditBloc.stateStream,
+                      initialData: 0,
+                      builder: (context, snapshot) {
+                        int tmp = snapshot.data!;
+                        return MyText(
+                          content: tmp.toString(), // Total Income
+                          color: cardFontColor,
+                          size: cardFontSize + h05,
+                          isHeader: true,
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -120,11 +124,18 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     SizedBox(
                       width: h05,
                     ),
-                    MyText(
-                      content: '126', // Total Expense
-                      color: cardFontColor,
-                      size: cardFontSize + h05,
-                      isHeader: true,
+                    StreamBuilder(
+                      stream: dayTotalDebitBloc.stateStream,
+                      initialData: 0,
+                      builder: (context, snapshot) {
+                        int tmp = snapshot.data!;
+                        return MyText(
+                          content: tmp.toString(), // Total Income
+                          color: cardFontColor,
+                          size: cardFontSize + h05,
+                          isHeader: true,
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -150,6 +161,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
   }
 }
 
+//************************* Duration card SStartes here *****************/
 class DurationCard extends StatefulWidget {
   const DurationCard({super.key});
   @override
@@ -169,13 +181,21 @@ class _DurationCardState extends State<DurationCard> {
       setState(() {
         date = picked;
         durationIndex == 0
-            ? dayBloc.eventSink.add(DayEvent.jump)
+            ? {
+                dayBloc.eventSink.add(DayEvent.jump),
+                dayUpdateBloc.eventSink.add(DayUpdate.update),
+                dayTotalCreditBloc.eventSink.add(DayUpdate.credit),
+                dayTotalDebitBloc.eventSink.add(DayUpdate.debit)
+              }
             : durationIndex == 1
-                ? monthBloc.eventSink.add(MonthEvent.jump)
+                ? {
+                    monthBloc.eventSink.add(MonthEvent.jump),
+                    monthTotalCreditListBloc.eventSink.add(MonthUpdate.credit),
+                    monthTotalDebitListBloc.eventSink.add(MonthUpdate.debit)
+                  }
                 : durationIndex == 2
                     ? yearBloc.eventSink.add(YearEvent.jump)
                     : null;
-        dayUpdateBloc.eventSink.add(DayUpdate.update);
       });
     }
   }
@@ -213,13 +233,27 @@ class _DurationCardState extends State<DurationCard> {
                   child: IconButton(
                       onPressed: () {
                         durationIndex == 0
-                            ? dayBloc.eventSink.add(DayEvent.minus)
+                            ? {
+                                dayBloc.eventSink.add(DayEvent.minus),
+                                dayUpdateBloc.eventSink.add(DayUpdate.update),
+                                dayTotalCreditBloc.eventSink
+                                    .add(DayUpdate.credit),
+                                dayTotalDebitBloc.eventSink.add(DayUpdate.debit)
+                              }
                             : durationIndex == 1
-                                ? monthBloc.eventSink.add(MonthEvent.minus)
+                                ? {
+                                    monthBloc.eventSink.add(MonthEvent.minus),
+                                    monthTotalCreditListBloc.eventSink
+                                        .add(MonthUpdate.credit),
+                                    monthTotalDebitListBloc.eventSink
+                                        .add(MonthUpdate.debit)
+                                  }
                                 : durationIndex == 2
                                     ? yearBloc.eventSink.add(YearEvent.minus)
                                     : null;
-                        dayUpdateBloc.eventSink.add(DayUpdate.update);
+                        // dayUpdateBloc.eventSink.add(DayUpdate.update);
+                        // dayTotalCreditBloc.eventSink.add(DayUpdate.credit);
+                        // dayTotalDebitBloc.eventSink.add(DayUpdate.debit);
                       },
                       icon: Icon(
                         Icons.arrow_back_ios,
@@ -288,13 +322,27 @@ class _DurationCardState extends State<DurationCard> {
                   child: IconButton(
                       onPressed: () {
                         durationIndex == 0
-                            ? dayBloc.eventSink.add(DayEvent.add)
+                            ? {
+                                dayBloc.eventSink.add(DayEvent.add),
+                                dayUpdateBloc.eventSink.add(DayUpdate.update),
+                                dayTotalCreditBloc.eventSink
+                                    .add(DayUpdate.credit),
+                                dayTotalDebitBloc.eventSink.add(DayUpdate.debit)
+                              }
                             : durationIndex == 1
-                                ? monthBloc.eventSink.add(MonthEvent.add)
+                                ? {
+                                    monthBloc.eventSink.add(MonthEvent.add),
+                                    monthTotalCreditListBloc.eventSink
+                                        .add(MonthUpdate.credit),
+                                    monthTotalDebitListBloc.eventSink
+                                        .add(MonthUpdate.debit)
+                                  }
                                 : durationIndex == 2
                                     ? yearBloc.eventSink.add(YearEvent.add)
                                     : null;
-                        dayUpdateBloc.eventSink.add(DayUpdate.update);
+                        // dayUpdateBloc.eventSink.add(DayUpdate.update);
+                        // dayTotalCreditBloc.eventSink.add(DayUpdate.credit);
+                        // dayTotalDebitBloc.eventSink.add(DayUpdate.debit);
                       },
                       icon: Icon(
                         Icons.arrow_forward_ios,
@@ -308,8 +356,26 @@ class _DurationCardState extends State<DurationCard> {
                 IconButton(
                     onPressed: () {
                       pickDate(context);
-                      dayBloc.eventSink.add(DayEvent.jump0);
-                      dayUpdateBloc.eventSink.add(DayUpdate.update);
+                      durationIndex == 0
+                          ? {
+                              dayBloc.eventSink.add(DayEvent.jump0),
+                              dayUpdateBloc.eventSink.add(DayUpdate.update),
+                              dayTotalCreditBloc.eventSink
+                                  .add(DayUpdate.credit),
+                              dayTotalDebitBloc.eventSink.add(DayUpdate.debit)
+                            }
+                          : durationIndex == 1
+                              ? {
+                                  monthTotalCreditListBloc.eventSink
+                                      .add(MonthUpdate.credit),
+                                  monthTotalDebitListBloc.eventSink
+                                      .add(MonthUpdate.debit)
+                                }
+                              : null;
+
+                      // dayUpdateBloc.eventSink.add(DayUpdate.update);
+                      // dayTotalCreditBloc.eventSink.add(DayUpdate.credit);
+                      // dayTotalDebitBloc.eventSink.add(DayUpdate.debit);
                     },
                     icon: Icon(
                       Icons.calendar_month_outlined,
@@ -358,6 +424,8 @@ class _DurationCardState extends State<DurationCard> {
                 durationIndex = 1;
               });
               monthBloc.eventSink.add(MonthEvent.jump0);
+              monthTotalCreditListBloc.eventSink.add(MonthUpdate.credit);
+              monthTotalDebitListBloc.eventSink.add(MonthUpdate.debit);
               pageController.jumpToPage(1);
               durationController.animateToPage(1,
                   duration: const Duration(milliseconds: 300),

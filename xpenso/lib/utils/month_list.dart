@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:xpenso/BLoC/bloc_month.dart';
 import 'package:xpenso/constans.dart';
-import 'package:xpenso/utils/tabs.dart';
+import 'package:xpenso/main.dart';
+
+final monthTotalCreditListBloc = MonthTotalCreditListBloc();
+final monthTotalDebitListBloc = MonthTotalDebitListBloc();
+List<int> tmpCredit = [];
+List<int> tmpDebit = [];
 
 class MonthList extends StatefulWidget {
   const MonthList({super.key});
@@ -10,6 +16,13 @@ class MonthList extends StatefulWidget {
 }
 
 class _MonthListState extends State<MonthList> {
+  @override
+  void initState() {
+    super.initState();
+    monthTotalCreditListBloc.eventSink.add(MonthUpdate.credit);
+    monthTotalDebitListBloc.eventSink.add(MonthUpdate.debit);
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -77,10 +90,26 @@ class _MonthListState extends State<MonthList> {
                           SizedBox(
                             width: w25,
                           ),
-                          MyText(
-                            content: '1000',
-                            size: cardFontSize * 1.1,
-                            isHeader: true,
+                          StreamBuilder(
+                            initialData: tmpCredit,
+                            stream: monthTotalCreditListBloc.stateStream,
+                            builder: (context, snapshot) {
+                              List<int> credit = snapshot.data!;
+                              if (credit.isNotEmpty) {
+                                tmpCredit = credit;
+                                debugPrint(
+                                    'From Month Income Widget | Total length ${credit.length.toString()}');
+                                return MyText(
+                                  content: credit[index].toString(),
+                                  size: cardFontSize * 1.1,
+                                  isHeader: true,
+                                );
+                              }
+                              return MyText(
+                                content: 'Loading',
+                                size: cardFontSize,
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -108,10 +137,26 @@ class _MonthListState extends State<MonthList> {
                           SizedBox(
                             width: w25,
                           ),
-                          MyText(
-                            content: '1000',
-                            size: cardFontSize * 1.1,
-                            isHeader: true,
+                          StreamBuilder(
+                            initialData: tmpDebit,
+                            stream: monthTotalDebitListBloc.stateStream,
+                            builder: (context, snapshot) {
+                              List<int> debit = snapshot.data!;
+                              if (debit.isNotEmpty) {
+                                tmpDebit = debit;
+                                debugPrint(
+                                    'From Month Income Widget | Total length ${debit.length.toString()}');
+                                return MyText(
+                                  content: debit[index].toString(),
+                                  size: cardFontSize * 1.1,
+                                  isHeader: true,
+                                );
+                              }
+                              return MyText(
+                                content: 'Loading',
+                                size: cardFontSize,
+                              );
+                            },
                           ),
                         ],
                       ),

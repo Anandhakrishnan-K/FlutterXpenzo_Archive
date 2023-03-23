@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xpenso/DataBase/data_model.dart';
 import 'package:xpenso/constans.dart';
-import 'package:xpenso/utils/tabs.dart';
+import 'package:xpenso/main.dart';
 
 class ListBuilder extends StatefulWidget {
   final List<Ledger> tmpList;

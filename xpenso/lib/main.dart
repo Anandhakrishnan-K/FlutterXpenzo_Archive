@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:xpenso/BLoC/bloc_day_update.dart';
+import 'package:xpenso/BLoC/bloc_duration.dart';
 import 'package:xpenso/DataBase/data_model.dart';
 import 'package:xpenso/DataBase/db_connnection.dart';
 import 'package:xpenso/utils/add_expenses.dart';
@@ -9,6 +10,14 @@ import 'package:xpenso/utils/month_list.dart';
 import 'package:xpenso/utils/tabs.dart';
 import 'constans.dart';
 import 'utils/year_list.dart';
+
+//Creating BLoC Objects
+final monthBloc = MonthBloc();
+final dayBloc = DayBloc();
+final yearBloc = YearBloc();
+final dayUpdateBloc = DayUpdateBloc();
+final dayTotalCreditBloc = DayTotalCreditBloc();
+final dayTotalDebitBloc = DayTotalDebitBloc();
 
 //Referencing Service
 List<Ledger> dayData = [];
@@ -87,6 +96,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     debugPrint('Calling With init state');
     dayUpdateBloc.eventSink.add(DayUpdate.update);
+    dayTotalCreditBloc.eventSink.add(DayUpdate.credit);
+    dayTotalDebitBloc.eventSink.add(DayUpdate.debit);
   }
 
   @override
@@ -174,6 +185,10 @@ class _HomePageState extends State<HomePage> {
                                               await service.saveData(ledger);
                                           dayUpdateBloc.eventSink
                                               .add(DayUpdate.update);
+                                          dayTotalCreditBloc.eventSink
+                                              .add(DayUpdate.credit);
+                                          dayTotalDebitBloc.eventSink
+                                              .add(DayUpdate.debit);
                                           debugPrint(
                                               '${result.toString()} added to the list | amount: ${ledger.amount} | day: ${ledger.day}');
                                         },
@@ -224,6 +239,10 @@ class _HomePageState extends State<HomePage> {
                                             await service.saveData(ledger);
                                         dayUpdateBloc.eventSink
                                             .add(DayUpdate.update);
+                                        dayTotalCreditBloc.eventSink
+                                            .add(DayUpdate.credit);
+                                        dayTotalDebitBloc.eventSink
+                                            .add(DayUpdate.debit);
                                         SnackBar(
                                             content: MyText(
                                           content:

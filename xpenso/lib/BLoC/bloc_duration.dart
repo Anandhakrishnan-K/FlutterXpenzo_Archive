@@ -19,16 +19,15 @@ class MonthBloc {
     eventStream.listen((event) {
       if (event == MonthEvent.add) {
         date = DateTime(date.year, date.month + 1, date.day);
-        debugPrint('Add Month$date');
       } else if (event == MonthEvent.minus) {
         date = DateTime(date.year, date.month - 1, date.day);
-        debugPrint('Minus Month$date');
       } else if (event == MonthEvent.jump) {
-        debugPrint('Month Jump $date');
       } else if (event == MonthEvent.jump0) {
         date = DateTime.now();
-        debugPrint('Month Jump 0$date');
       }
+      dateSelected = date;
+      debugPrint(
+          'From Month Bloc | Date Modified to : ${date.toString()} } | Original Date : ${dateSelected.toString()}');
       stateSink.add(date);
     });
   }
@@ -57,7 +56,7 @@ class DayBloc {
       }
       dateSelected = date;
       debugPrint(
-          'From Bloc | Date Modified to : ${date.toString()} } | Original Date : ${dateSelected.toString()}');
+          'From Day Bloc | Date Modified to : ${date.toString()} } | Original Date : ${dateSelected.toString()}');
       stateSink.add(date);
     });
   }
@@ -78,16 +77,15 @@ class YearBloc {
     eventStream.listen((event) {
       if (event == YearEvent.add) {
         date = DateTime(date.year + 1, date.month, date.day);
-        debugPrint('Add Year $date');
       } else if (event == YearEvent.minus) {
         date = DateTime(date.year - 1, date.month, date.day);
-        debugPrint('Minus Year$date');
       } else if (event == YearEvent.jump) {
-        debugPrint('Jump Year $date');
       } else if (event == YearEvent.jump0) {
         date = DateTime.now();
-        debugPrint('Jump 0 Year $date');
       }
+      dateSelected = date;
+      debugPrint(
+          'From Year Bloc | Date Modified to : ${date.toString()} } | Original Date : ${dateSelected.toString()}');
       stateSink.add(date);
     });
   }
