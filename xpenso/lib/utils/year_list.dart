@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xpenso/BLoC/bloc_page.dart';
 import 'package:xpenso/constans.dart';
 import 'package:xpenso/utils/tabs.dart';
-
-final setIndex = SetPageBloc();
 
 class YearList extends StatefulWidget {
   const YearList({super.key});
@@ -19,7 +16,7 @@ class _YearListState extends State<YearList> {
       initialData: DateTime.now(),
       stream: yearBloc.stateStream,
       builder: (context, snapshot) {
-        date = snapshot.data!;
+        DateTime date = snapshot.data!;
         List<DateTime> yearList = [
           DateTime(date.year, 1, 1),
           DateTime(date.year, 2, 1),

@@ -15,15 +15,16 @@ class _ListBuilderState extends State<ListBuilder> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      initialData: DateTime.now(),
-      stream: dayBloc.stateStream,
+      initialData: widget.tmpList,
+      stream: dayUpdateBloc.stateStream,
       builder: (context, snapshot) {
-        DateTime temp = snapshot.data!;
+        List<Ledger> dayList = snapshot.data!;
+        debugPrint('DayList Called ${dayList.length}');
         return ListView.builder(
           physics: const BouncingScrollPhysics(),
-          itemCount: widget.tmpList.length,
+          itemCount: dayList.length,
           itemBuilder: (context, index) {
-            final item = widget.tmpList[index].toString();
+            final item = dayList[index].toString();
 
             // Dismissable Widget Startes Here
             return Dismissible(
@@ -81,7 +82,7 @@ class _ListBuilderState extends State<ListBuilder> {
               direction: DismissDirection.endToStart,
               onDismissed: (direction) {
                 setState(() {
-                  widget.tmpList.removeAt(index);
+                  dayList.removeAt(index);
                 });
 
                 // Display Snack bar when item deleted
@@ -117,11 +118,9 @@ class _ListBuilderState extends State<ListBuilder> {
                       children: [
                         SizedBox(
                             width: w100 * 2,
-                            child: widget.tmpList[index].categoryFlag == false
-                                ? expenseList[
-                                    widget.tmpList[index].categoryIndex!]
-                                : incomeList[
-                                    widget.tmpList[index].categoryIndex!]),
+                            child: dayList[index].categoryFlag == false
+                                ? expenseList[dayList[index].categoryIndex!]
+                                : incomeList[dayList[index].categoryIndex!]),
                         SizedBox(
                           width: w50,
                         ),
@@ -144,8 +143,7 @@ class _ListBuilderState extends State<ListBuilder> {
                                     width: w25,
                                   ),
                                   MyText(
-                                    content:
-                                        widget.tmpList[index].amount.toString(),
+                                    content: dayList[index].amount.toString(),
                                     size: cardFontSize * 1.2,
                                     isHeader: true,
                                   ),
@@ -153,11 +151,10 @@ class _ListBuilderState extends State<ListBuilder> {
                                     width: w25,
                                   ),
                                   Icon(
-                                    widget.tmpList[index].categoryFlag == false
+                                    dayList[index].categoryFlag == false
                                         ? Icons.arrow_upward
                                         : Icons.arrow_downward,
-                                    color: widget.tmpList[index].categoryFlag ==
-                                            false
+                                    color: dayList[index].categoryFlag == false
                                         ? Colors.red
                                         : Colors.green,
                                     size: cardFontSize * 1.5,
@@ -169,10 +166,11 @@ class _ListBuilderState extends State<ListBuilder> {
                               ),
                               SizedBox(
                                 height: h50,
+                                width: deviceWidth * 0.6,
                                 child: MyText(
                                   content:
-                                      '${day.format(temp)} : ${widget.tmpList[index].notes}',
-                                  size: cardFontSize / 1.1,
+                                      '${dayList[index].day} - ${dayList[index].month} : ${dayList[index].notes}',
+                                  size: cardFontSize * 0.9,
                                 ),
                               )
                             ],

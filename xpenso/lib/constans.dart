@@ -44,12 +44,12 @@ const Color cardFontColor = Colors.black;
 
 // ************************* Initalizing Date formatting  *********************
 
-DateTime date = DateTime.now();
+DateTime dateSelected = DateTime.now();
 DateFormat day = DateFormat('dd - MMM');
 DateFormat month = DateFormat('MMM - yy');
 DateFormat year = DateFormat('yyyy');
 DateFormat weekDay = DateFormat('EEE');
-int days = DateTime(date.year, date.month + 1, 0).day;
+int days = DateTime(dateSelected.year, dateSelected.month + 1, 0).day;
 int durationIndex = 0;
 //For Data Storage purpose
 DateFormat d = DateFormat('dd');
@@ -63,8 +63,10 @@ class MyText extends StatelessWidget {
   final Color color;
   final bool isHeader;
   final TextOverflow overflow;
+  final int maxlines;
   const MyText(
       {super.key,
+      this.maxlines = 1,
       required this.content,
       this.size = 16,
       this.color = Colors.black,
@@ -80,7 +82,7 @@ class MyText extends StatelessWidget {
           color: color,
           fontWeight: isHeader ? FontWeight.bold : FontWeight.normal),
       overflow: overflow,
-      maxLines: 1,
+      maxLines: maxlines,
     );
   }
 }

@@ -50,7 +50,7 @@ class Repository {
   readData(table, day, mon, year) async {
     var connection = await database;
     return await connection?.rawQuery(
-        'Select * from $table where day = \'${day.toString()}\' and month = \'${mon.toString()}\' and year = \'${year.toString()}\'');
+        'Select * from $table where day = \'${day.toString()}\' and month = \'${mon.toString()}\' and year = \'${year.toString()}\' order by createdT desc');
   }
 
   //Update Function

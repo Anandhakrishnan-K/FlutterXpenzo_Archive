@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:xpenso/BLoC/bloc_day_update.dart';
 import 'package:xpenso/DataBase/data_model.dart';
 import 'package:xpenso/DataBase/db_connnection.dart';
 import 'package:xpenso/utils/add_expenses.dart';
@@ -10,13 +11,13 @@ import 'constans.dart';
 import 'utils/year_list.dart';
 
 //Referencing Service
-late List<Ledger> dayData = [];
+List<Ledger> dayData = [];
 final service = Services();
 
 //Function for Getting Data
-String dayDay = d.format(date).toString();
-String monthDay = m.format(date).toString();
-String yearDay = y.format(date).toString();
+String dayDay = d.format(dateSelected).toString();
+String monthDay = m.format(dateSelected).toString();
+String yearDay = y.format(dateSelected).toString();
 
 // Main Program Starts here
 PageController pageController = PageController();
@@ -58,6 +59,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   getDayData() async {
+    debugPrint('Calling Inside Home Page');
+    dayData.clear();
     var data = await service.getData(dayDay, monthDay, yearDay);
     data.forEach((ledger) {
       setState(() {
@@ -82,7 +85,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    getDayData();
+    debugPrint('Calling With init state');
+    dayUpdateBloc.eventSink.add(DayUpdate.update);
   }
 
   @override
@@ -155,22 +159,23 @@ class _HomePageState extends State<HomePage> {
                                           ledger.notes = notesController.text;
                                           ledger.categoryFlag = true;
                                           ledger.categoryIndex = catIndex;
-                                          ledger.day = d
-                                              .format(DateTime.now())
-                                              .toString();
-                                          ledger.month = m
-                                              .format(DateTime.now())
-                                              .toString();
-                                          ledger.year = y
-                                              .format(DateTime.now())
-                                              .toString();
+                                          ledger.day =
+                                              d.format(dateSelected).toString();
+                                          ledger.month =
+                                              m.format(dateSelected).toString();
+                                          ledger.year =
+                                              y.format(dateSelected).toString();
                                           ledger.createdT =
                                               DateTime.now().toString();
                                           ledger.attachmentFlag = false;
                                           ledger.attachmentName = 'NA';
+                                          Navigator.pop(context);
                                           var result =
                                               await service.saveData(ledger);
-                                          debugPrint(result.toString());
+                                          dayUpdateBloc.eventSink
+                                              .add(DayUpdate.update);
+                                          debugPrint(
+                                              '${result.toString()} added to the list | amount: ${ledger.amount} | day: ${ledger.day}');
                                         },
                                       ));
                                 },
@@ -204,10 +209,12 @@ class _HomePageState extends State<HomePage> {
                                         ledger.notes = notesController.text;
                                         ledger.categoryFlag = false;
                                         ledger.categoryIndex = catIndex;
-                                        ledger.day = d.format(date).toString();
+                                        ledger.day =
+                                            d.format(dateSelected).toString();
                                         ledger.month =
-                                            m.format(date).toString();
-                                        ledger.year = y.format(date).toString();
+                                            m.format(dateSelected).toString();
+                                        ledger.year =
+                                            y.format(dateSelected).toString();
                                         ledger.createdT =
                                             DateTime.now().toString();
                                         ledger.attachmentFlag = false;
@@ -215,7 +222,16 @@ class _HomePageState extends State<HomePage> {
                                         Navigator.pop(context);
                                         var result =
                                             await service.saveData(ledger);
-                                        debugPrint(result.toString());
+                                        dayUpdateBloc.eventSink
+                                            .add(DayUpdate.update);
+                                        SnackBar(
+                                            content: MyText(
+                                          content:
+                                              '${result.toString()} added to the list | amount: ${ledger.amount}',
+                                          size: cardFontSize,
+                                        ));
+                                        debugPrint(
+                                            '${result.toString()} added to the list | amount: ${ledger.amount} | day: ${ledger.day}');
                                       },
                                     ),
                                   );

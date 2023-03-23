@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:xpenso/constans.dart';
 
+DateTime date = dateSelected;
+
 enum MonthEvent { add, minus, jump, jump0 }
 
 class MonthBloc {
@@ -47,16 +49,15 @@ class DayBloc {
     eventStream.listen((event) {
       if (event == DayEvent.add) {
         date = DateTime(date.year, date.month, date.day + 1);
-        debugPrint('Add Day$date');
       } else if (event == DayEvent.minus) {
         date = DateTime(date.year, date.month, date.day - 1);
-        debugPrint('Minus day$date');
       } else if (event == DayEvent.jump) {
-        debugPrint('Jump Day$date');
       } else if (event == DayEvent.jump0) {
         date = DateTime.now();
-        debugPrint('Jump Day 0$date');
       }
+      dateSelected = date;
+      debugPrint(
+          'From Bloc | Date Modified to : ${date.toString()} } | Original Date : ${dateSelected.toString()}');
       stateSink.add(date);
     });
   }
