@@ -20,7 +20,6 @@ final dayTotalCreditBloc = DayTotalCreditBloc();
 final dayTotalDebitBloc = DayTotalDebitBloc();
 
 //Referencing Service
-List<Ledger> dayData = [];
 final service = Services();
 
 //Function for Getting Data
@@ -67,37 +66,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  getDayData() async {
-    debugPrint('Calling Inside Home Page');
-    dayData.clear();
-    var data = await service.getData(dayDay, monthDay, yearDay);
-    data.forEach((ledger) {
-      setState(() {
-        var dataModel = Ledger();
-        dataModel.id = ledger['id'];
-        dataModel.amount = ledger['amount'];
-        dataModel.notes = ledger['notes'];
-        dataModel.categoryIndex = ledger['categoryIndex'];
-        dataModel.categoryFlag = ledger['categoryFlag'] == 1 ? true : false;
-        dataModel.day = ledger['day'];
-        dataModel.month = ledger['month'];
-        dataModel.year = ledger['year'];
-        dataModel.createdT = ledger['createdT'];
-        dataModel.attachmentFlag = ledger['attachmentFlag'] == 1 ? true : false;
-        dataModel.attachmentName = ledger['attachmentName'];
+  // getDayData() async {
+  //   debugPrint('Calling Inside Home Page');
+  //   dayData.clear();
+  //   var data = await service.getData(dayDay, monthDay, yearDay);
+  //   data.forEach((ledger) {
+  //     setState(() {
+  //       var dataModel = Ledger();
+  //       dataModel.id = ledger['id'];
+  //       dataModel.amount = ledger['amount'];
+  //       dataModel.notes = ledger['notes'];
+  //       dataModel.categoryIndex = ledger['categoryIndex'];
+  //       dataModel.categoryFlag = ledger['categoryFlag'] == 1 ? true : false;
+  //       dataModel.day = ledger['day'];
+  //       dataModel.month = ledger['month'];
+  //       dataModel.year = ledger['year'];
+  //       dataModel.createdT = ledger['createdT'];
+  //       dataModel.attachmentFlag = ledger['attachmentFlag'] == 1 ? true : false;
+  //       dataModel.attachmentName = ledger['attachmentName'];
 
-        dayData.add(dataModel);
-      });
-    });
-  }
+  //       dayData.add(dataModel);
+  //     });
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    debugPrint('Calling With init state');
-    dayUpdateBloc.eventSink.add(DayUpdate.update);
-    dayTotalCreditBloc.eventSink.add(DayUpdate.credit);
-    dayTotalDebitBloc.eventSink.add(DayUpdate.debit);
+    debugPrint('Home Page Initiated');
   }
 
   @override
@@ -189,6 +185,20 @@ class _HomePageState extends State<HomePage> {
                                               .add(DayUpdate.credit);
                                           dayTotalDebitBloc.eventSink
                                               .add(DayUpdate.debit);
+                                          // ignore: use_build_context_synchronously
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  backgroundColor: Colors.white,
+                                                  dismissDirection:
+                                                      DismissDirection
+                                                          .endToStart,
+                                                  duration: const Duration(
+                                                      seconds: 1),
+                                                  content: MyText(
+                                                    content:
+                                                        'Credit Amount: ${ledger.amount} added successfully',
+                                                    size: cardFontSize,
+                                                  )));
                                           debugPrint(
                                               '${result.toString()} added to the list | amount: ${ledger.amount} | day: ${ledger.day}');
                                         },
@@ -243,12 +253,19 @@ class _HomePageState extends State<HomePage> {
                                             .add(DayUpdate.credit);
                                         dayTotalDebitBloc.eventSink
                                             .add(DayUpdate.debit);
-                                        SnackBar(
-                                            content: MyText(
-                                          content:
-                                              '${result.toString()} added to the list | amount: ${ledger.amount}',
-                                          size: cardFontSize,
-                                        ));
+                                        // ignore: use_build_context_synchronously
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                backgroundColor: Colors.white,
+                                                dismissDirection:
+                                                    DismissDirection.endToStart,
+                                                duration:
+                                                    const Duration(seconds: 1),
+                                                content: MyText(
+                                                  content:
+                                                      'Debit Amount: ${ledger.amount} added successfully',
+                                                  size: cardFontSize,
+                                                )));
                                         debugPrint(
                                             '${result.toString()} added to the list | amount: ${ledger.amount} | day: ${ledger.day}');
                                       },
@@ -265,9 +282,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       SizedBox(
                         height: listHeight,
-                        child: ListBuilder(
-                          tmpList: dayData,
-                        ),
+                        child: ListBuilder(),
                       )
                     ],
                   ),
@@ -289,7 +304,7 @@ class _HomePageState extends State<HomePage> {
 //******************************** Main Page - Year ***************************/
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
-                      SizedBox(height: cardHeight1, child: ExpenseCardMonth()),
+                      SizedBox(height: cardHeight1, child: ExpenseCardYear()),
                       SizedBox(
                         height: h10,
                       ),

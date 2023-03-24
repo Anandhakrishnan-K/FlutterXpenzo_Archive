@@ -59,6 +59,18 @@ class Repository {
         'Select sum(amount) as sum from $table where day = \'${day.toString()}\' and month = \'${mon.toString()}\' and year = \'${year.toString()}\' and categoryFlag =\'${flag.toString()}\' ');
   }
 
+  monthTotal(table, mon, year, flag) async {
+    var connection = await database;
+    return await connection?.rawQuery(
+        'Select sum(amount) as sum from $table where month = \'${mon.toString()}\' and year = \'${year.toString()}\' and categoryFlag =\'${flag.toString()}\' ');
+  }
+
+  yearTotal(table, year, flag) async {
+    var connection = await database;
+    return await connection?.rawQuery(
+        'Select sum(amount) as sum from $table where year = \'${year.toString()}\' and categoryFlag =\'${flag.toString()}\' ');
+  }
+
   //Update Function
   updateData(table, data) async {
     var connection = await database;
@@ -93,5 +105,13 @@ class Services {
 
   getDayTotal(day, mon, year, flag) async {
     return await repo.dayTotal('ledger_t', day, mon, year, flag);
+  }
+
+  getMonthTotal(mon, year, flag) async {
+    return await repo.monthTotal('ledger_t', mon, year, flag);
+  }
+
+  getYearTotal(year, flag) async {
+    return await repo.yearTotal('ledger_t', year, flag);
   }
 }

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:xpenso/BLoC/bloc_day_update.dart';
 import 'package:xpenso/DataBase/data_model.dart';
 import 'package:xpenso/constans.dart';
 import 'package:xpenso/main.dart';
 
+List<Ledger> tmpList = [];
+
 class ListBuilder extends StatefulWidget {
-  final List<Ledger> tmpList;
-  const ListBuilder({super.key, required this.tmpList});
+  const ListBuilder({
+    super.key,
+  });
 
   @override
   State<ListBuilder> createState() => _ListBuilderState();
@@ -13,13 +17,27 @@ class ListBuilder extends StatefulWidget {
 
 class _ListBuilderState extends State<ListBuilder> {
   @override
+  void initState() {
+    super.initState();
+    dayTotalCreditBloc.eventSink.add(DayUpdate.credit);
+    dayTotalDebitBloc.eventSink.add(DayUpdate.debit);
+    dayUpdateBloc.eventSink.add(DayUpdate.update);
+    debugPrint('From Day Initiate Method: Day List Initiated');
+  }
+
+  @override
+  void dispose() {
+    debugPrint('From Day Displose Method: Day List Killed');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      initialData: widget.tmpList,
+      initialData: tmpList,
       stream: dayUpdateBloc.stateStream,
       builder: (context, snapshot) {
         List<Ledger> dayList = snapshot.data!;
-        debugPrint('DayList Called ${dayList.length}');
         return ListView.builder(
           physics: const BouncingScrollPhysics(),
           itemCount: dayList.length,

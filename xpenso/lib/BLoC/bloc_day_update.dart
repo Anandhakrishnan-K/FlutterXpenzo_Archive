@@ -25,7 +25,6 @@ class DayUpdateBloc {
     eventStream.listen((event) async {
       if (event == DayUpdate.update) {
         DateTime tmp = dateSelected;
-        debugPrint('Day Upadte Function called and current date : $tmp');
         String dayDay = d.format(tmp).toString();
         String monthDay = m.format(tmp).toString();
         String yearDay = y.format(tmp).toString();
@@ -49,8 +48,10 @@ class DayUpdateBloc {
 
           tmpData.add(dataModel);
         });
+        debugPrint(
+            'Day Upadte Function called and current date : $tmp | Total Records: ${tmpData.length.toString()}');
       }
-      debugPrint('${tmpData.length}');
+
       stateSink.add(tmpData);
     });
   }
@@ -70,7 +71,6 @@ class DayTotalCreditBloc {
     eventStream.listen((event) async {
       if (event == DayUpdate.credit) {
         DateTime tmp = dateSelected;
-        debugPrint('Day Upadte Function called and current date : $tmp');
         String dayDay = d.format(tmp).toString();
         String monthDay = m.format(tmp).toString();
         String yearDay = y.format(tmp).toString();
@@ -83,6 +83,8 @@ class DayTotalCreditBloc {
         } else {
           totalDayCredit = 0;
         }
+        debugPrint(
+            'Day Upadte Function called and current date : $tmp | Total Credit: ${totalDayCredit.toString()}');
       }
       stateSink.add(totalDayCredit);
     });
@@ -103,7 +105,6 @@ class DayTotalDebitBloc {
     eventStream.listen((event) async {
       if (event == DayUpdate.debit) {
         DateTime tmp = dateSelected;
-        debugPrint('Day Upadte Function called and current date : $tmp');
         String dayDay = d.format(tmp).toString();
         String monthDay = m.format(tmp).toString();
         String yearDay = y.format(tmp).toString();
@@ -116,6 +117,9 @@ class DayTotalDebitBloc {
         } else {
           totalDayDebit = 0;
         }
+
+        debugPrint(
+            'Day Upadte Function called and current date : $tmp | Total Debit: ${totalDayDebit.toString()}');
       }
       stateSink.add(totalDayDebit);
     });

@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:xpenso/BLoC/bloc_day_update.dart';
 import 'package:xpenso/BLoC/bloc_duration.dart';
 import 'package:xpenso/BLoC/bloc_month.dart';
+import 'package:xpenso/BLoC/year_bloc.dart';
 import 'package:xpenso/constans.dart';
 import 'package:xpenso/main.dart';
 import 'package:xpenso/utils/month_list.dart';
+import 'package:xpenso/utils/year_list.dart';
 
 class ExpenseCard extends StatefulWidget {
   final Function()? onPressedCredit;
@@ -19,6 +21,12 @@ class ExpenseCard extends StatefulWidget {
 }
 
 class _ExpenseCardState extends State<ExpenseCard> {
+  @override
+  void dispose() {
+    debugPrint('Day Expense card Dispose Method: State Killed');
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -190,11 +198,15 @@ class _DurationCardState extends State<DurationCard> {
             : durationIndex == 1
                 ? {
                     monthBloc.eventSink.add(MonthEvent.jump),
-                    monthTotalCreditListBloc.eventSink.add(MonthUpdate.credit),
-                    monthTotalDebitListBloc.eventSink.add(MonthUpdate.debit)
+                    monthTotalListBloc.eventSink.add(MonthUpdate.update),
+                    monthTotalBloc.eventSink.add(MonthUpdate.getdata),
                   }
                 : durationIndex == 2
-                    ? yearBloc.eventSink.add(YearEvent.jump)
+                    ? {
+                        yearBloc.eventSink.add(YearEvent.jump),
+                        yearUpadteBloc.eventSink.add(YearUpdate.update),
+                        yearTotalBloc.eventSink.add(YearUpdate.getData),
+                      }
                     : null;
       });
     }
@@ -243,13 +255,19 @@ class _DurationCardState extends State<DurationCard> {
                             : durationIndex == 1
                                 ? {
                                     monthBloc.eventSink.add(MonthEvent.minus),
-                                    monthTotalCreditListBloc.eventSink
-                                        .add(MonthUpdate.credit),
-                                    monthTotalDebitListBloc.eventSink
-                                        .add(MonthUpdate.debit)
+                                    monthTotalListBloc.eventSink
+                                        .add(MonthUpdate.update),
+                                    monthTotalBloc.eventSink
+                                        .add(MonthUpdate.getdata),
                                   }
                                 : durationIndex == 2
-                                    ? yearBloc.eventSink.add(YearEvent.minus)
+                                    ? {
+                                        yearBloc.eventSink.add(YearEvent.minus),
+                                        yearUpadteBloc.eventSink
+                                            .add(YearUpdate.update),
+                                        yearTotalBloc.eventSink
+                                            .add(YearUpdate.getData),
+                                      }
                                     : null;
                         // dayUpdateBloc.eventSink.add(DayUpdate.update);
                         // dayTotalCreditBloc.eventSink.add(DayUpdate.credit);
@@ -266,7 +284,7 @@ class _DurationCardState extends State<DurationCard> {
                 ),
                 //********************************* Duration Text Box ************************/
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       height: h50,
@@ -280,10 +298,12 @@ class _DurationCardState extends State<DurationCard> {
                             stream: dayBloc.stateStream,
                             builder: (context, snapshot) {
                               date = snapshot.data!;
-                              return MyText(
-                                content: day.format(date),
-                                isHeader: true,
-                                size: cardFontSize * 1.1,
+                              return Center(
+                                child: MyText(
+                                  content: day.format(date),
+                                  isHeader: true,
+                                  size: cardFontSize * 1.1,
+                                ),
                               );
                             },
                           ),
@@ -292,10 +312,12 @@ class _DurationCardState extends State<DurationCard> {
                             stream: monthBloc.stateStream,
                             builder: (context, snapshot) {
                               date = snapshot.data!;
-                              return MyText(
-                                content: month.format(date),
-                                isHeader: true,
-                                size: cardFontSize * 1.1,
+                              return Center(
+                                child: MyText(
+                                  content: month.format(date),
+                                  isHeader: true,
+                                  size: cardFontSize * 1.1,
+                                ),
                               );
                             },
                           ),
@@ -304,10 +326,12 @@ class _DurationCardState extends State<DurationCard> {
                             stream: yearBloc.stateStream,
                             builder: (context, snapshot) {
                               date = snapshot.data!;
-                              return MyText(
-                                content: year.format(date),
-                                isHeader: true,
-                                size: cardFontSize * 1.1,
+                              return Center(
+                                child: MyText(
+                                  content: year.format(date),
+                                  isHeader: true,
+                                  size: cardFontSize * 1.1,
+                                ),
                               );
                             },
                           ),
@@ -332,13 +356,19 @@ class _DurationCardState extends State<DurationCard> {
                             : durationIndex == 1
                                 ? {
                                     monthBloc.eventSink.add(MonthEvent.add),
-                                    monthTotalCreditListBloc.eventSink
-                                        .add(MonthUpdate.credit),
-                                    monthTotalDebitListBloc.eventSink
-                                        .add(MonthUpdate.debit)
+                                    monthTotalListBloc.eventSink
+                                        .add(MonthUpdate.update),
+                                    monthTotalBloc.eventSink
+                                        .add(MonthUpdate.getdata),
                                   }
                                 : durationIndex == 2
-                                    ? yearBloc.eventSink.add(YearEvent.add)
+                                    ? {
+                                        yearBloc.eventSink.add(YearEvent.add),
+                                        yearUpadteBloc.eventSink
+                                            .add(YearUpdate.update),
+                                        yearTotalBloc.eventSink
+                                            .add(YearUpdate.getData),
+                                      }
                                     : null;
                         // dayUpdateBloc.eventSink.add(DayUpdate.update);
                         // dayTotalCreditBloc.eventSink.add(DayUpdate.credit);
@@ -366,12 +396,19 @@ class _DurationCardState extends State<DurationCard> {
                             }
                           : durationIndex == 1
                               ? {
-                                  monthTotalCreditListBloc.eventSink
-                                      .add(MonthUpdate.credit),
-                                  monthTotalDebitListBloc.eventSink
-                                      .add(MonthUpdate.debit)
+                                  monthTotalListBloc.eventSink
+                                      .add(MonthUpdate.update),
+                                  monthTotalBloc.eventSink
+                                      .add(MonthUpdate.getdata),
                                 }
-                              : null;
+                              : durationIndex == 2
+                                  ? {
+                                      yearUpadteBloc.eventSink
+                                          .add(YearUpdate.update),
+                                      yearTotalBloc.eventSink
+                                          .add(YearUpdate.getData),
+                                    }
+                                  : null;
 
                       // dayUpdateBloc.eventSink.add(DayUpdate.update);
                       // dayTotalCreditBloc.eventSink.add(DayUpdate.credit);
@@ -395,12 +432,20 @@ class _DurationCardState extends State<DurationCard> {
             isBold: true,
             content: 'D',
             onPressed: () {
+              dayBloc.eventSink.add(DayEvent.jump0);
+              durationIndex == 0
+                  ? {
+                      dayUpdateBloc.eventSink.add(DayUpdate.update),
+                      dayTotalCreditBloc.eventSink.add(DayUpdate.credit),
+                      dayTotalDebitBloc.eventSink.add(DayUpdate.debit),
+                    }
+                  : null;
               setState(() {
                 durationIndex = 0;
               });
-              dayBloc.eventSink.add(DayEvent.jump0);
-              dayUpdateBloc.eventSink.add(DayUpdate.update);
-              pageController.jumpToPage(0);
+              pageController.animateToPage(0,
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.decelerate);
               durationController.animateToPage(0,
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.linear);
@@ -424,9 +469,12 @@ class _DurationCardState extends State<DurationCard> {
                 durationIndex = 1;
               });
               monthBloc.eventSink.add(MonthEvent.jump0);
-              monthTotalCreditListBloc.eventSink.add(MonthUpdate.credit);
-              monthTotalDebitListBloc.eventSink.add(MonthUpdate.debit);
-              pageController.jumpToPage(1);
+              monthTotalListBloc.eventSink.add(MonthUpdate.update);
+
+              monthTotalBloc.eventSink.add(MonthUpdate.getdata);
+              pageController.animateToPage(1,
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.decelerate);
               durationController.animateToPage(1,
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.linear);
@@ -450,7 +498,11 @@ class _DurationCardState extends State<DurationCard> {
                 durationIndex = 2;
               });
               yearBloc.eventSink.add(YearEvent.jump0);
-              pageController.jumpToPage(2);
+              yearUpadteBloc.eventSink.add(YearUpdate.update);
+              yearTotalBloc.eventSink.add(YearUpdate.getData);
+              pageController.animateToPage(2,
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.decelerate);
               durationController.animateToPage(2,
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.linear);
@@ -466,219 +518,272 @@ class _DurationCardState extends State<DurationCard> {
 }
 
 //********************************* Expense Card Month  ************************/
-class ExpenseCardMonth extends StatelessWidget {
+class ExpenseCardMonth extends StatefulWidget {
   const ExpenseCardMonth({super.key});
 
   @override
+  State<ExpenseCardMonth> createState() => _ExpenseCardMonthState();
+}
+
+class _ExpenseCardMonthState extends State<ExpenseCardMonth> {
+  @override
+  void initState() {
+    super.initState();
+    monthTotalBloc.eventSink.add(MonthUpdate.getdata);
+    debugPrint('From Month Expense Card Initstate: State Initiated');
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-        height: cardHeight1,
-        width: deviceWidth,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(h15),
-            color: appBarColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.shade500,
-                blurRadius: h05,
-                offset: Offset(0, h05),
-              )
-            ]),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const SizedBox(
-              width: 20,
-            ),
-//********************************* Income  **********************************/
-            Column(
-              children: [
-                SizedBox(
-                  height: h25,
-                ),
-                MyText(
-                  content: 'Total Income',
-                  color: cardFontColor,
-                  size: cardFontSize,
-                ),
-                SizedBox(
-                  height: h20,
-                ),
-                Row(
+    return StreamBuilder(
+        initialData: tmpCredit,
+        stream: monthTotalBloc.statestream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<MapEntry<DateTime, MapEntry<int, int>>> temp = snapshot.data!;
+            tmpCredit = temp;
+            return Container(
+                height: cardHeight1,
+                width: deviceWidth,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(h15),
+                    color: appBarColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade500,
+                        blurRadius: h05,
+                        offset: Offset(0, h05),
+                      )
+                    ]),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
-                      Icons.currency_rupee,
-                      color: cardFontColor,
-                      size: cardFontSize + h05,
+                    const SizedBox(
+                      width: 20,
                     ),
-                    SizedBox(
-                      width: h05,
+                    //********************************* Income  **********************************/
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: h25,
+                        ),
+                        MyText(
+                          content: 'Total Income',
+                          color: cardFontColor,
+                          size: cardFontSize,
+                        ),
+                        SizedBox(
+                          height: h20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.currency_rupee,
+                              color: cardFontColor,
+                              size: cardFontSize + h05,
+                            ),
+                            SizedBox(
+                              width: h05,
+                            ),
+                            MyText(
+                              content:
+                                  temp[0].value.key.toString(), // Total Income
+                              color: cardFontColor,
+                              size: cardFontSize + h05,
+                              isHeader: true,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    MyText(
-                      content: '12060', // Total Income
-                      color: cardFontColor,
-                      size: cardFontSize + h05,
-                      isHeader: true,
+                    VerticalDivider(
+                      color: Colors.white,
+                      thickness: 1,
+                      indent: h25,
+                      endIndent: h25,
+                    ),
+                    //********************************* Expense  **********************************/
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: h25,
+                        ),
+                        MyText(
+                          content: 'Total Expense',
+                          color: cardFontColor,
+                          size: cardFontSize,
+                        ),
+                        SizedBox(
+                          height: h20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.currency_rupee,
+                              color: cardFontColor,
+                              size: cardFontSize + h05,
+                            ),
+                            SizedBox(
+                              width: h05,
+                            ),
+                            MyText(
+                              content: temp[0]
+                                  .value
+                                  .value
+                                  .toString(), // Total Expense
+                              color: cardFontColor,
+                              size: cardFontSize + h05,
+                              isHeader: true,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 20,
                     ),
                   ],
-                ),
-              ],
-            ),
-            VerticalDivider(
-              color: Colors.white,
-              thickness: 1,
-              indent: h25,
-              endIndent: h25,
-            ),
-//********************************* Expense  **********************************/
-            Column(
-              children: [
-                SizedBox(
-                  height: h25,
-                ),
-                MyText(
-                  content: 'Total Expense',
-                  color: cardFontColor,
-                  size: cardFontSize,
-                ),
-                SizedBox(
-                  height: h20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.currency_rupee,
-                      color: cardFontColor,
-                      size: cardFontSize + h05,
-                    ),
-                    SizedBox(
-                      width: h05,
-                    ),
-                    MyText(
-                      content: '1260', // Total Expense
-                      color: cardFontColor,
-                      size: cardFontSize + h05,
-                      isHeader: true,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-          ],
-        ));
+                ));
+          }
+          return const MyText(content: 'Loading');
+        });
   }
 }
 
 //********************************* Expense Card Year  ************************/
-class ExpenseCardYear extends StatelessWidget {
+class ExpenseCardYear extends StatefulWidget {
   const ExpenseCardYear({super.key});
 
   @override
+  State<ExpenseCardYear> createState() => _ExpenseCardYearState();
+}
+
+class _ExpenseCardYearState extends State<ExpenseCardYear> {
+  @override
+  void initState() {
+    super.initState();
+    yearTotalBloc.eventSink.add(YearUpdate.getData);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-        height: cardHeight1,
-        width: deviceWidth,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(h15),
-            color: appBarColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.shade500,
-                blurRadius: h05,
-                offset: Offset(0, h05),
-              )
-            ]),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const SizedBox(
-              width: 20,
-            ),
-//********************************* Income  **********************************/
-            Column(
-              children: [
-                SizedBox(
-                  height: h25,
-                ),
-                MyText(
-                  content: 'Total Income',
-                  color: cardFontColor,
-                  size: cardFontSize,
-                ),
-                SizedBox(
-                  height: h20,
-                ),
-                Row(
+    return StreamBuilder(
+        initialData: tmpCredit,
+        stream: yearTotalBloc.stateStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<MapEntry<DateTime, MapEntry<int, int>>> yearTotal =
+                snapshot.data!;
+            return Container(
+                height: cardHeight1,
+                width: deviceWidth,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(h15),
+                    color: appBarColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade500,
+                        blurRadius: h05,
+                        offset: Offset(0, h05),
+                      )
+                    ]),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
-                      Icons.currency_rupee,
-                      color: cardFontColor,
-                      size: cardFontSize + h05,
+                    const SizedBox(
+                      width: 20,
                     ),
-                    SizedBox(
-                      width: h05,
+                    //********************************* Income  **********************************/
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: h25,
+                        ),
+                        MyText(
+                          content: 'Total Income',
+                          color: cardFontColor,
+                          size: cardFontSize,
+                        ),
+                        SizedBox(
+                          height: h20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.currency_rupee,
+                              color: cardFontColor,
+                              size: cardFontSize + h05,
+                            ),
+                            SizedBox(
+                              width: h05,
+                            ),
+                            MyText(
+                              content: yearTotal[0]
+                                  .value
+                                  .key
+                                  .toString(), // Total Income
+                              color: cardFontColor,
+                              size: cardFontSize + h05,
+                              isHeader: true,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    MyText(
-                      content: '1206000', // Total Income
-                      color: cardFontColor,
-                      size: cardFontSize + h05,
-                      isHeader: true,
+                    VerticalDivider(
+                      color: Colors.white,
+                      thickness: 1,
+                      indent: h25,
+                      endIndent: h25,
+                    ),
+                    //********************************* Expense  **********************************/
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: h25,
+                        ),
+                        MyText(
+                          content: 'Total Expense',
+                          color: cardFontColor,
+                          size: cardFontSize,
+                        ),
+                        SizedBox(
+                          height: h20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.currency_rupee,
+                              color: cardFontColor,
+                              size: cardFontSize + h05,
+                            ),
+                            SizedBox(
+                              width: h05,
+                            ),
+                            MyText(
+                              content: yearTotal[0]
+                                  .value
+                                  .value
+                                  .toString(), // Total Expense
+                              color: cardFontColor,
+                              size: cardFontSize + h05,
+                              isHeader: true,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 20,
                     ),
                   ],
-                ),
-              ],
-            ),
-            VerticalDivider(
-              color: Colors.white,
-              thickness: 1,
-              indent: h25,
-              endIndent: h25,
-            ),
-//********************************* Expense  **********************************/
-            Column(
-              children: [
-                SizedBox(
-                  height: h25,
-                ),
-                MyText(
-                  content: 'Total Expense',
-                  color: cardFontColor,
-                  size: cardFontSize,
-                ),
-                SizedBox(
-                  height: h20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.currency_rupee,
-                      color: cardFontColor,
-                      size: cardFontSize + h05,
-                    ),
-                    SizedBox(
-                      width: h05,
-                    ),
-                    MyText(
-                      content: '12060', // Total Expense
-                      color: cardFontColor,
-                      size: cardFontSize + h05,
-                      isHeader: true,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-          ],
-        ));
+                ));
+          }
+          return const MyText(content: 'Loading');
+        });
   }
 }
